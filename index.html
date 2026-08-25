@@ -1,0 +1,2582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Cultura Organizacional da Netflix - Apresentação 1080p</title>
+    <!-- Fontes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --netflix-red: #E50914;
+            --netflix-red-hover: #b80710;
+            --netflix-dark: #141414;
+            --netflix-card: #1f1f1f;
+            --netflix-card-hover: #262626;
+            --netflix-gray: #8c8c8c;
+            --netflix-light-gray: #e5e5e5;
+            --netflix-white: #ffffff;
+            --accent-gold: #f5a623;
+            --accent-blue: #0071eb;
+            --accent-green: #00b020;
+            --accent-purple: #8c00ff;
+            --font-display: 'Bebas Neue', cursive;
+            --font-body: 'Inter', sans-serif;
+            --font-brand: 'Montserrat', sans-serif;
+            --slide-width: 1920px;
+            --slide-height: 1080px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: var(--netflix-white);
+            font-family: var(--font-body);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Container Proporcional 16:9 - 1080p Nativo */
+        #presentation-viewport {
+            position: relative;
+            width: var(--slide-width);
+            height: var(--slide-height);
+            background-color: var(--netflix-dark);
+            transform-origin: center center;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.95);
+        }
+
+        /* Regra Universal e Rígida para Todos os Slides no Navegador */
+        .slide {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease-in-out, transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+            transform: scale(1.01);
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: scale(1) !important;
+            pointer-events: auto !important;
+            z-index: 10 !important;
+        }
+
+        /* Barra de Navegação Inferior HUD */
+        .hud-navigation {
+            position: absolute;
+            bottom: 20px;
+            left: 50px;
+            right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 60;
+            pointer-events: auto;
+        }
+
+        .hud-progress-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            max-width: 650px;
+        }
+
+        .hud-progress-track {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .hud-progress-fill {
+            height: 100%;
+            background-color: var(--netflix-red);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .hud-slide-counter {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--netflix-gray);
+            letter-spacing: 1px;
+        }
+
+        .hud-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hud-btn {
+            background: rgba(40, 40, 40, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .hud-btn:hover {
+            background: var(--netflix-red);
+            border-color: var(--netflix-red);
+        }
+
+        .hud-shortcuts-hint {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ==============================================================
+           SLIDE 1: ABERTURA / TUDUM CINEMATOGRÁFICO
+           ============================================================== */
+        .slide-intro {
+            background: radial-gradient(circle at center, #2b0305 0%, #141414 70%, #050505 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .intro-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 5;
+        }
+
+        .netflix-logo-huge {
+            font-family: var(--font-display);
+            color: var(--netflix-red);
+            font-size: 13.5rem;
+            letter-spacing: 6px;
+            line-height: 0.9;
+            text-shadow: 0 10px 40px rgba(229, 9, 20, 0.6);
+            transform: scale(0.95);
+            animation: logoPulse 3s infinite alternate ease-in-out;
+            cursor: pointer;
+        }
+
+        @keyframes logoPulse {
+            0% {
+                transform: scale(0.98);
+                text-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+            }
+
+            100% {
+                transform: scale(1.02);
+                text-shadow: 0 15px 60px rgba(229, 9, 20, 0.8);
+            }
+        }
+
+        .intro-title {
+            font-family: var(--font-brand);
+            font-size: 3.4rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            background: linear-gradient(180deg, #fff 0%, #a8a8a8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .intro-subtitle {
+            font-size: 1.65rem;
+            color: var(--netflix-gray);
+            font-weight: 400;
+            margin-top: 15px;
+            max-width: 950px;
+        }
+
+        .intro-meta {
+            margin-top: 40px;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 14px 35px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .meta-tag {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--netflix-light-gray);
+        }
+
+        .meta-badge-red {
+            background: var(--netflix-red);
+            color: #fff;
+            padding: 5px 14px;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .intro-cta-btn {
+            margin-top: 40px;
+            background: var(--netflix-white);
+            color: #000;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 18px 45px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.25s;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .intro-cta-btn:hover {
+            background: var(--netflix-red);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* ==============================================================
+           SLIDE 2: QUEM ESTÁ NO GRUPO? (PERFIS DOS 6 INTEGRANTES)
+           ============================================================== */
+        .slide-profiles {
+            background: radial-gradient(circle at center, #1f1f1f 0%, #141414 60%, #0d0d0d 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px;
+        }
+
+        .profiles-header h2 {
+            font-size: 4.5rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 50px;
+        }
+
+        .profiles-grid-1080 {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            max-width: 1700px;
+        }
+
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 220px;
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .profile-card:hover {
+            transform: scale(1.12);
+        }
+
+        .profile-avatar-box {
+            width: 175px;
+            height: 175px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.2rem;
+            font-weight: 900;
+            color: #fff;
+            border: 4px solid transparent;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .profile-card:hover .profile-avatar-box {
+            border-color: #fff;
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-card-name {
+            color: var(--netflix-gray);
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-top: 18px;
+            transition: color 0.2s;
+        }
+
+        .profile-card:hover .profile-card-name {
+            color: var(--netflix-white);
+        }
+
+        .profile-card-role {
+            font-size: 1rem;
+            color: #a0a0a0;
+            margin-top: 6px;
+            text-align: center;
+            line-height: 1.3;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .profiles-footer-btn {
+            margin-top: 60px;
+            background: transparent;
+            border: 2px solid #666;
+            color: #888;
+            padding: 14px 45px;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .profiles-footer-btn:hover {
+            border-color: #fff;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ==============================================================
+           SLIDE 3: CATÁLOGO / HISTÓRIA & PIONEIRISMO (VINÍCIUS)
+           ============================================================== */
+        .slide-catalog {
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.95) 25%, rgba(0, 0, 0, 0.6) 65%, rgba(0, 0, 0, 0.3) 100%),
+                radial-gradient(circle at top right, rgba(229, 9, 20, 0.2) 0%, transparent 60%),
+                url('https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=2069&auto=format&fit=crop') center/cover;
+            padding: 0;
+            justify-content: space-between;
+        }
+
+        .netflix-navbar {
+            width: 100%;
+            padding: 30px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 45px;
+        }
+
+        .nav-logo-text {
+            color: var(--netflix-red);
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+        }
+
+        .nav-menu-links {
+            display: flex;
+            gap: 30px;
+            font-size: 1.15rem;
+            color: var(--netflix-light-gray);
+        }
+
+        .nav-menu-links span.active-link {
+            font-weight: 700;
+            color: #fff;
+            border-bottom: 2px solid var(--netflix-red);
+            padding-bottom: 4px;
+        }
+
+        .hero-main-content {
+            padding: 0 60px;
+            max-width: 1150px;
+            margin-top: -40px;
+        }
+
+        .hero-badge-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(229, 9, 20, 0.2);
+            border: 1px solid var(--netflix-red);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero-headline {
+            font-family: var(--font-display);
+            font-size: 6.8rem;
+            line-height: 0.95;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-synopsis {
+            font-size: 1.55rem;
+            line-height: 1.5;
+            color: #e0e0e0;
+            margin-bottom: 35px;
+            max-width: 1000px;
+        }
+
+        .history-cards-row {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .history-card {
+            background: rgba(30, 30, 30, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            padding: 22px;
+            border-radius: 8px;
+            flex: 1;
+            border-left: 4px solid var(--netflix-red);
+        }
+
+        .history-card-year {
+            font-family: var(--font-display);
+            font-size: 2.3rem;
+            color: var(--netflix-red);
+            margin-bottom: 6px;
+        }
+
+        .history-card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .history-card-desc {
+            font-size: 1.1rem;
+            color: #bbb;
+            line-height: 1.4;
+        }
+
+        .hero-action-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-action-primary {
+            background-color: #fff;
+            color: #000;
+            font-size: 1.35rem;
+            font-weight: 700;
+            padding: 14px 38px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .btn-action-primary:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            transform: scale(1.03);
+        }
+
+        .btn-action-secondary {
+            background-color: rgba(109, 109, 110, 0.7);
+            color: #fff;
+            font-size: 1.35rem;
+            font-weight: 600;
+            padding: 14px 38px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s;
+        }
+
+        /* ==============================================================
+           ESTRUTURA 1: LISTAS VERTICAIS DE EPISÓDIOS COM CORES TEMÁTICAS
+           ============================================================== */
+        .episodes-view-slide {
+            padding: 40px 70px 85px 70px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: flex-start;
+            position: relative;
+        }
+
+        /* Fundo Diferenciado - Slide 4 (Temporada 1: Vermelho / Vinho Netflix Profundo) */
+        .ep-bg-season1 {
+            background: radial-gradient(circle at 88% 18%, rgba(229, 9, 20, 0.18) 0%, transparent 55%),
+                radial-gradient(circle at 12% 85%, rgba(229, 9, 20, 0.08) 0%, transparent 45%),
+                linear-gradient(135deg, #181012 0%, #120e10 50%, #0a0809 100%);
+        }
+
+        /* Fundo Diferenciado - Slide 6 (Temporada 2: Esmeralda / Obsidian) */
+        .ep-bg-season2 {
+            background: radial-gradient(circle at 88% 18%, rgba(0, 176, 32, 0.18) 0%, transparent 55%),
+                radial-gradient(circle at 12% 85%, rgba(0, 176, 32, 0.08) 0%, transparent 45%),
+                linear-gradient(135deg, #0e1712 0%, #0b120e 50%, #070a08 100%);
+        }
+
+        /* Fundo Diferenciado - Slide 9 (Temporada 5: Âmbar / Bronze Corporativo) */
+        .ep-bg-season5 {
+            background: radial-gradient(circle at 88% 18%, rgba(245, 166, 35, 0.18) 0%, transparent 55%),
+                radial-gradient(circle at 12% 85%, rgba(245, 166, 35, 0.08) 0%, transparent 45%),
+                linear-gradient(135deg, #1a150e 0%, #130f0a 50%, #0a0805 100%);
+        }
+
+        .ep-netflix-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            width: 100%;
+            z-index: 5;
+        }
+
+        .ep-netflix-main-heading {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .ep-season-select-box {
+            background: rgba(36, 36, 36, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
+            padding: 10px 24px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.2s, background 0.2s;
+            backdrop-filter: blur(8px);
+        }
+
+        .ep-season-select-box:hover {
+            border-color: #ffffff;
+            background: rgba(50, 50, 50, 0.95);
+        }
+
+        .ep-season-sub-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            font-size: 1.25rem;
+            color: #a3a3a3;
+            z-index: 5;
+        }
+
+        .ep-rating-badge {
+            background: #e87c03;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .ep-category-tag {
+            color: #b3b3b3;
+            font-size: 1.2rem;
+        }
+
+        .ep-vertical-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            flex: 1;
+            z-index: 5;
+        }
+
+        .ep-netflix-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            padding: 20px 28px;
+            border-radius: 8px;
+            background: rgba(25, 25, 25, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.25s;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+        }
+
+        .ep-netflix-row:hover {
+            background: rgba(45, 45, 45, 0.85);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(6px);
+        }
+
+        .ep-netflix-row.active-row {
+            background: rgba(45, 45, 45, 0.9);
+            border: 1px solid rgba(229, 9, 20, 0.5);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .ep-item-number {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #8c8c8c;
+            width: 35px;
+            text-align: center;
+            flex-shrink: 0;
+            margin-top: 15px;
+        }
+
+        .ep-netflix-row.active-row .ep-item-number,
+        .ep-netflix-row:hover .ep-item-number {
+            color: #ffffff;
+        }
+
+        .ep-item-thumbnail {
+            width: 200px;
+            height: 112px;
+            border-radius: 6px;
+            background: #181818;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            margin-top: 5px;
+        }
+
+        .ep-thumb-svg-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.65;
+            transition: opacity 0.2s, transform 0.25s;
+        }
+
+        .ep-netflix-row:hover .ep-thumb-svg-bg {
+            opacity: 0.9;
+            transform: scale(1.06);
+        }
+
+        .ep-thumb-play-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #fff;
+            z-index: 3;
+            transition: all 0.2s;
+        }
+
+        .ep-netflix-row:hover .ep-thumb-play-btn {
+            background: var(--netflix-red);
+            border-color: var(--netflix-red);
+            transform: scale(1.15);
+            box-shadow: 0 0 18px rgba(229, 9, 20, 0.9);
+        }
+
+        .ep-item-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
+            gap: 8px;
+        }
+
+        .ep-title-duration-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .ep-item-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.2px;
+        }
+
+        .ep-item-duration {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #a3a3a3;
+        }
+
+        .ep-item-synopsis {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: #dedede;
+            max-width: 1400px;
+        }
+
+        .ep-item-synopsis strong {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .ep-column-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 6px;
+            list-style: none;
+        }
+
+        .ep-column-checklist li {
+            font-size: 1.22rem;
+            line-height: 1.45;
+            color: #d6d6d6;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .ep-bullet-red {
+            color: var(--netflix-red);
+            font-weight: 900;
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        /* ==============================================================
+           ESTRUTURA 2: PLAYER CINEMATOGRÁFICO COM FUNDO SVG E ILUMINAÇÃO
+           ============================================================== */
+        .slide-player-netflix {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px 80px 85px 80px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* FUNDOS PERSONALIZADOS POR PLAYER */
+        .player-theme-autonomia {
+            background: radial-gradient(circle at 50% 25%, rgba(229, 9, 20, 0.22) 0%, rgba(20, 5, 8, 0.92) 55%, #050203 100%);
+        }
+
+        .player-theme-valores {
+            background: radial-gradient(circle at 50% 25%, rgba(245, 166, 35, 0.20) 0%, rgba(22, 16, 5, 0.94) 55%, #060401 100%);
+        }
+
+        .player-theme-filosofia {
+            background: radial-gradient(circle at 50% 25%, rgba(0, 113, 235, 0.22) 0%, rgba(4, 14, 30, 0.94) 55%, #02050b 100%);
+        }
+
+        .player-theme-keeper {
+            background: radial-gradient(circle at 50% 20%, rgba(229, 9, 20, 0.28) 0%, rgba(25, 4, 6, 0.95) 55%, #080102 100%);
+        }
+
+        /* Camada Vetorial SVG de Fundo do Player */
+        .player-svg-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.22;
+            z-index: 2;
+        }
+
+        .player-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .player-series-title {
+            font-size: 1.65rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #e5e5e5;
+        }
+
+        .player-badge-4k {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .player-main-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            max-width: 1550px;
+            margin: auto;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .player-giant-headline {
+            font-family: var(--font-brand);
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 1.3;
+            color: #ffffff;
+            margin-bottom: 25px;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
+            max-width: 1450px;
+        }
+
+        .player-highlight-card {
+            background: rgba(229, 9, 20, 0.15);
+            border: 2px solid var(--netflix-red);
+            border-radius: 12px;
+            padding: 22px 45px;
+            margin-bottom: 30px;
+            max-width: 1250px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px rgba(229, 9, 20, 0.15);
+        }
+
+        .player-highlight-card.gold-border {
+            background: rgba(245, 166, 35, 0.15);
+            border-color: var(--accent-gold);
+            box-shadow: 0 8px 30px rgba(245, 166, 35, 0.15);
+        }
+
+        .player-highlight-card.blue-border {
+            background: rgba(0, 113, 235, 0.15);
+            border-color: var(--accent-blue);
+            box-shadow: 0 8px 30px rgba(0, 113, 235, 0.15);
+        }
+
+        .player-highlight-text {
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.4;
+        }
+
+        .player-highlight-sub {
+            color: #dedede;
+            font-size: 1.25rem;
+            margin-top: 10px;
+            line-height: 1.45;
+        }
+
+        .player-columns-3grid {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1450px;
+        }
+
+        .player-scene-box {
+            background: rgba(24, 24, 24, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 22px 26px;
+            flex: 1;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .player-scene-box.center-align {
+            text-align: center;
+        }
+
+        .player-stat-big {
+            font-family: var(--font-display);
+            font-size: 4.2rem;
+            line-height: 1;
+            color: var(--netflix-red);
+            margin-bottom: 4px;
+        }
+
+        .player-stat-big.gold {
+            color: var(--accent-gold);
+        }
+
+        .player-stat-big.green {
+            color: var(--accent-green);
+        }
+
+        .player-box-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .player-box-desc {
+            font-size: 1.15rem;
+            color: #cccccc;
+            line-height: 1.4;
+        }
+
+        /* Controles do Player de Vídeo */
+        .player-bottom-controls-wrap {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            z-index: 10;
+        }
+
+        .player-timeline-track {
+            width: 100%;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .player-timeline-fill {
+            height: 100%;
+            background: var(--netflix-red);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .player-timeline-handle {
+            position: absolute;
+            right: -7px;
+            top: -4.5px;
+            width: 16px;
+            height: 16px;
+            background: var(--netflix-red);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.8);
+        }
+
+        .player-buttons-strip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.45rem;
+            color: #ffffff;
+        }
+
+        .player-controls-left {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .player-controls-right {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            font-size: 1.15rem;
+            color: #e0e0e0;
+        }
+
+        /* SLIDE 11: CONCLUSÃO */
+        .slide-inactive-screen {
+            background: radial-gradient(circle at center, #222222 0%, #141414 70%, #0a0a0a 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px;
+        }
+
+        .inactive-box-content {
+            max-width: 1150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .inactive-main-title {
+            font-size: 4rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        .inactive-summary-card {
+            background: rgba(35, 35, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 40px 50px;
+            margin-bottom: 45px;
+            text-align: left;
+        }
+
+        .inactive-summary-card h3 {
+            font-size: 2rem;
+            color: var(--netflix-red);
+            margin-bottom: 15px;
+            font-family: var(--font-brand);
+        }
+
+        .inactive-summary-card p {
+            font-size: 1.45rem;
+            line-height: 1.6;
+            color: #dedede;
+            margin-bottom: 15px;
+        }
+
+        .inactive-buttons-row {
+            display: flex;
+            gap: 25px;
+        }
+
+        .btn-restart-show {
+            background: #fff;
+            color: #000;
+            font-size: 1.4rem;
+            font-weight: 700;
+            padding: 18px 45px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-restart-show:hover {
+            background: var(--netflix-red);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .btn-qa-open {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #888;
+            font-size: 1.4rem;
+            font-weight: 600;
+            padding: 18px 45px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-qa-open:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* SLIDE 12: CRÉDITOS */
+        .slide-credits {
+            background: radial-gradient(circle at top right, #1f1416 0%, #111111 60%, #0a0a0a 100%);
+            padding: 50px 80px 80px 80px;
+            justify-content: flex-start;
+        }
+
+        .references-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .ref-item-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--netflix-red);
+            padding: 16px 20px;
+            border-radius: 0 6px 6px 0;
+            font-size: 1.15rem;
+            color: #bbb;
+            line-height: 1.45;
+        }
+
+        .ref-item-box strong {
+            color: #fff;
+        }
+
+        /* MODAL DE NOTAS DO ORADOR */
+        #speaker-notes-modal {
+            position: fixed;
+            bottom: 80px;
+            right: 40px;
+            width: 520px;
+            max-height: 450px;
+            background: rgba(18, 18, 18, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            color: #fff;
+        }
+
+        #speaker-notes-modal.visible {
+            display: flex;
+        }
+
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .notes-header h4 {
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notes-body {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #ddd;
+            overflow-y: auto;
+            max-height: 330px;
+        }
+
+        /* ==============================================================
+           AJUSTE DE LEGIBILIDADE PARA SALA DE AULA / TELA GRANDE
+           Mantém o layout e o comportamento originais; altera apenas
+           tamanhos e espaçamentos tipográficos na exibição em tela.
+           ============================================================== */
+        @media screen {
+            /* Textos auxiliares e de navegação: aumento moderado */
+            .hud-slide-counter,
+            .hud-btn,
+            .hud-shortcuts-hint {
+                font-size: 1.15rem;
+            }
+
+            .nav-menu-links {
+                font-size: 1.35rem;
+            }
+
+            .hero-badge-tag,
+            .profile-card-role,
+            .ep-rating-badge,
+            .player-badge-4k {
+                font-size: 1.2rem;
+            }
+
+            /* Capa e perfis */
+            .intro-title {
+                font-size: 3.8rem;
+            }
+
+            .intro-subtitle {
+                font-size: 1.9rem;
+                line-height: 1.35;
+            }
+
+            .meta-tag {
+                font-size: 1.4rem;
+            }
+
+            .meta-badge-red {
+                font-size: 1.15rem;
+            }
+
+            .profiles-header h2 {
+                font-size: 5rem;
+            }
+
+            .profile-card-name {
+                font-size: 1.85rem;
+            }
+
+            .profiles-footer-btn {
+                font-size: 1.6rem;
+            }
+
+            /* Slide histórico */
+            .hero-synopsis {
+                font-size: 1.8rem;
+                line-height: 1.55;
+            }
+
+            .history-card-title {
+                font-size: 1.5rem;
+            }
+
+            .history-card-desc {
+                font-size: 1.3rem;
+                line-height: 1.5;
+            }
+
+            .btn-action-primary,
+            .btn-action-secondary {
+                font-size: 1.55rem;
+            }
+
+            /* Listas de episódios */
+            .ep-netflix-main-heading {
+                font-size: 3.35rem;
+            }
+
+            .ep-season-select-box,
+            .ep-season-sub-info,
+            .ep-category-tag {
+                font-size: 1.45rem;
+            }
+
+            .ep-item-title {
+                font-size: 1.8rem;
+            }
+
+            .ep-item-duration {
+                font-size: 1.45rem;
+            }
+
+            .ep-item-synopsis,
+            .ep-column-checklist li {
+                font-size: 1.45rem;
+                line-height: 1.5;
+            }
+
+            /* Players */
+            .player-series-title {
+                font-size: 1.9rem;
+            }
+
+            .player-giant-headline {
+                font-size: 3.25rem;
+            }
+
+            .player-highlight-text {
+                font-size: 1.95rem;
+            }
+
+            .player-highlight-sub {
+                font-size: 1.45rem;
+                line-height: 1.5;
+            }
+
+            .player-box-title {
+                font-size: 1.55rem;
+            }
+
+            .player-box-desc {
+                font-size: 1.35rem;
+                line-height: 1.5;
+            }
+
+            .player-buttons-strip {
+                font-size: 1.65rem;
+            }
+
+            .player-controls-right {
+                font-size: 1.35rem;
+            }
+
+            /* Conclusão e referências */
+            .inactive-main-title {
+                font-size: 4.5rem;
+            }
+
+            .inactive-summary-card h3 {
+                font-size: 2.25rem;
+            }
+
+            .inactive-summary-card p {
+                font-size: 1.7rem;
+                line-height: 1.6;
+            }
+
+            .btn-restart-show,
+            .btn-qa-open {
+                font-size: 1.6rem;
+            }
+
+            .ref-item-box {
+                font-size: 1.35rem;
+                line-height: 1.5;
+            }
+
+            /* Textos definidos inline no conteúdo dos slides */
+            .slide [style*="font-size: 1.05rem"],
+            .slide [style*="font-size: 1.1rem"],
+            .slide [style*="font-size: 1.15rem"] {
+                font-size: 1.35rem !important;
+            }
+
+            .slide [style*="font-size: 1.2rem"],
+            .slide [style*="font-size: 1.25rem"],
+            .slide [style*="font-size: 1.3rem"] {
+                font-size: 1.5rem !important;
+            }
+
+            .slide [style*="font-size: 1.6rem"] {
+                font-size: 1.85rem !important;
+            }
+        }
+
+        /* Ajuste adicional de leitura à distância: somente tela */
+        @media screen {
+            /* Aumenta principalmente textos corridos e informações secundárias. */
+            .intro-subtitle { font-size: 2.05rem; }
+            .hero-synopsis { font-size: 1.95rem; }
+            .history-card-title { font-size: 1.6rem; }
+            .history-card-desc { font-size: 1.4rem; }
+
+            .ep-season-sub-info,
+            .ep-category-tag { font-size: 1.55rem; }
+            .ep-item-title { font-size: 1.95rem; }
+            .ep-item-duration { font-size: 1.55rem; }
+            .ep-item-synopsis,
+            .ep-column-checklist li { font-size: 1.6rem; }
+
+            .player-highlight-text { font-size: 2.1rem; }
+            .player-highlight-sub { font-size: 1.6rem; }
+            .player-box-title { font-size: 1.65rem; }
+            .player-box-desc { font-size: 1.5rem; }
+            .player-controls-right { font-size: 1.45rem; }
+
+            .inactive-summary-card p { font-size: 1.85rem; }
+            .ref-item-box { font-size: 1.5rem; }
+
+            /* Conteúdo que usa estilos inline recebe o mesmo reforço visual. */
+            .slide [style*="font-size: 1.05rem"],
+            .slide [style*="font-size: 1.1rem"],
+            .slide [style*="font-size: 1.15rem"] {
+                font-size: 1.45rem !important;
+            }
+            .slide [style*="font-size: 1.2rem"],
+            .slide [style*="font-size: 1.25rem"],
+            .slide [style*="font-size: 1.3rem"] {
+                font-size: 1.6rem !important;
+            }
+        }
+
+        /* REGRAS PARA IMPRESSÃO EM PDF */
+        /* REGRAS PARA IMPRESSÃO EM PDF (ENCAIXE PERFEITO A4 PAISAGEM) */
+        /* REGRAS PARA IMPRESSÃO EM PDF 1080P NATIVO (PRESERVA ESCALA E CAPA) */
+        /* REGRAS PARA IMPRESSÃO EM PDF 1080P NATIVO (PRESERVA ESCALA E CAPA) */
+        /* REGRAS DE IMPRESSÃO A4 PAISAGEM PROPORCIONAL (PRESERVA 100% DO DESIGN) */
+        /* REGRAS DE IMPRESSÃO - CORREÇÃO 1080P */
+        @media print {
+            @page {
+                /* Força o papel a ter a exata resolução do slide */
+                size: 1920px 1080px;
+                margin: 0;
+                /* Remove a margem nativa do navegador */
+            }
+
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box !important;
+            }
+
+            html,
+            body {
+                display: block !important;
+                width: 1920px !important;
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                /* Fundo totalmente preto para evitar bordas brancas */
+                background-color: #000000 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                overflow: visible !important;
+            }
+
+            #presentation-viewport {
+                display: block !important;
+                position: relative !important;
+                width: 1920px !important;
+                height: auto !important;
+                transform: none !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background-color: #000000 !important;
+            }
+
+            .hud-navigation,
+            #speaker-notes-modal {
+                display: none !important;
+            }
+
+            .slide {
+                position: relative !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 1920px !important;
+                height: 1080px !important;
+                margin: 0 !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+                /* Garante que cada slide ocupe exatamente uma página */
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                break-after: page !important;
+                display: flex !important;
+                overflow: hidden !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="presentation-viewport">
+
+        <!-- SLIDE 1: ABERTURA -->
+        <div class="slide active slide-intro" id="slide-1" data-speaker="Vinícius Mota" data-time="~1 min"
+            data-notes="Abertura do trabalho: Dar boas-vindas à banca e colegas. Apresentar o tema 'A Cultura Organizacional da Netflix' e destacar a orientação da Professora Kelly Dias Olimpio no curso de Técnico em Administração da ETEC.">
+            <div class="intro-container">
+                <div class="netflix-logo-huge" id="tudum-trigger">NETFLIX</div>
+                <h1 class="intro-title">A Cultura Organizacional</h1>
+                <p class="intro-subtitle">Da derrota da Blockbuster ao império do streaming: liberdade com
+                    responsabilidade, densidade de talentos e inovação contínua.</p>
+
+                <div class="intro-meta">
+                    <span class="meta-badge-red">ETEC 2026</span>
+                    <span class="meta-tag">Técnico em Administração</span>
+                    <span class="meta-tag">Professora: Kelly Dias Olimpio</span>
+                </div>
+
+                <button class="intro-cta-btn" onclick="nextSlide()">
+                    <span>▶</span> Iniciar Apresentação
+                </button>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: PERFIS DOS 6 INTEGRANTES -->
+        <div class="slide slide-profiles" id="slide-2" data-speaker="Vinícius Mota" data-time="~45 seg"
+            data-notes="Apresentar a formação da equipe e os tópicos de cada integrante: Alexandre (Temporada 1: Comportamento Observável), Antonio (Temporada 2: Normas de Convivência), Cristina (Temporada 3: 9 Valores Dominantes), Angela (Temporada 4: Filosofia Administrativa), Renata (Temporada 5: Regras e Políticas) e Vinícius (História, Keeper Test e Conclusão).">
+            <div class="profiles-header">
+                <h2>Quem está no grupo?</h2>
+            </div>
+
+            <div class="profiles-grid-1080">
+                <div class="profile-card" onclick="goToSlide(4)">
+                    <div class="profile-avatar-box" style="background-color: #E50914;">A</div>
+                    <span class="profile-card-name">Alexandre</span>
+                </div>
+
+                <div class="profile-card" onclick="goToSlide(6)">
+                    <div class="profile-avatar-box" style="background-color: #00b020;">A</div>
+                    <span class="profile-card-name">Antonio</span>
+                </div>
+
+                <div class="profile-card" onclick="goToSlide(7)">
+                    <div class="profile-avatar-box" style="background-color: #ffb500;">C</div>
+                    <span class="profile-card-name">Cristina</span>
+                </div>
+
+                <div class="profile-card" onclick="goToSlide(8)">
+                    <div class="profile-avatar-box" style="background-color: #0071eb;">A</div>
+                    <span class="profile-card-name">Angela</span>
+                </div>
+
+                <div class="profile-card" onclick="goToSlide(9)">
+                    <div class="profile-avatar-box" style="background-color: #ff5e00;">R</div>
+                    <span class="profile-card-name">Renata</span>
+                </div>
+
+                <div class="profile-card" onclick="goToSlide(3)">
+                    <div class="profile-avatar-box" style="background-color: #e5e5e5; color: #141414;">V</div>
+                    <span class="profile-card-name">Vinícius</span>
+                </div>
+            </div>
+
+            <button class="profiles-footer-btn" onclick="nextSlide()">Começar</button>
+        </div>
+
+        <!-- SLIDE 3: PRÓLOGO / HISTÓRIA (VINÍCIUS MOTA) -->
+        <div class="slide slide-catalog" id="slide-3" data-speaker="Vinícius Mota" data-time="~1 min 15s"
+            data-notes="Capítulo 1: Inovação e Pioneirismo no Mercado de Entretenimento. Explicar como a Netflix começou em 1997 com aluguel de DVDs por correio. Em 2000, ofereceu ser comprada pela Blockbuster por US$ 50 milhões (que recusou rindo). Em 2007 lançou o streaming; em 2010 a Blockbuster faliu. Hoje lidera a Guerra dos Streamings porque sua cultura não pune o erro criativo e foca na agilidade.">
+            <div class="netflix-navbar">
+                <div class="nav-left">
+                    <span class="nav-logo-text">NETFLIX</span>
+                    <div class="nav-menu-links">
+                        <span class="active-link">Início</span>
+                        <span>Temporadas</span>
+                        <span>Originais</span>
+                        <span>Mais Votados</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-main-content">
+                <div class="hero-badge-tag">🔴 Prólogo • Historia de pioneirismo</div>
+                <h1 class="hero-headline">INOVAÇÃO & PIONEIRISMO</h1>
+                <p class="hero-synopsis">
+                    Fundada em 1997 por Reed Hastings e Marc Randolph, a Netflix protagonizou uma das maiores revoluções
+                    corporativas da história: da entrega postal de DVDs ao domínio global do streaming.
+                </p>
+
+                <div class="history-cards-row">
+                    <div class="history-card">
+                        <div class="history-card-year">2000</div>
+                        <div class="history-card-title">A Proposta Recusada</div>
+                        <div class="history-card-desc">A Blockbuster recusou comprar a Netflix por US$ 50 milhões, rindo
+                            do modelo digital.</div>
+                    </div>
+                    <div class="history-card">
+                        <div class="history-card-year">2007 - 2010</div>
+                        <div class="history-card-title">A Virada Histórica</div>
+                        <div class="history-card-desc">Lançamento do streaming revolucionário e a falência da
+                            Blockbuster em 2010.</div>
+                    </div>
+                    <div class="history-card">
+                        <div class="history-card-year">2026</div>
+                        <div class="history-card-title">Guerra dos Streamings</div>
+                        <div class="history-card-desc">Liderança contra Disney, Apple e Amazon mantida pela agilidade e
+                            cultura organizacional.</div>
+                    </div>
+                </div>
+
+                <div class="hero-action-buttons">
+                    <button class="btn-action-primary" onclick="nextSlide()">▶ Ver Temporada 1</button>
+                    <button class="btn-action-secondary" onclick="toggleNotes()">ⓘ Mais informações</button>
+                </div>
+            </div>
+            <div></div>
+        </div>
+
+        <!-- SLIDE 4: TEMPORADA 1 - COMPORTAMENTO OBSERVÁVEL (ALEXANDRE ROXA) [LISTA DE EPISÓDIOS - TEMA VERMELHO] -->
+        <div class="slide episodes-view-slide ep-bg-season1" id="slide-4" data-speaker="Alexandre Roxa"
+            data-time="~45 seg"
+            data-notes="Temporada 1: Cotidiano do Comportamento Observável. Apresentar o catálogo da 1ª temporada: Ep 1 - Tomada de Decisão Autônoma; Ep 2 - Comunicação Aberta & Feedback; Ep 3 - Ambiente Prático de Alto Desempenho.">
+            <div class="ep-netflix-header-row">
+                <h2 class="ep-netflix-main-heading">Episódios</h2>
+                <div class="ep-season-select-box" onclick="nextSlide()">
+                    <span>Temporada 1: Comportamento Observável</span>
+                    <span>▾</span>
+                </div>
+            </div>
+
+            <div class="ep-season-sub-info">
+                <span>Temporada 1:</span>
+                <span class="ep-rating-badge">ADM</span>
+                <span class="ep-category-tag">autonomia prática, agilidade & aprendizado contínuo</span>
+            </div>
+
+            <div class="ep-vertical-list">
+                <!-- Ep 1 -->
+                <div class="ep-netflix-row active-row" onclick="goToSlide(5)">
+                    <div class="ep-item-number">1</div>
+                    <div class="ep-item-thumbnail">
+                        <!-- SVG Thumbnail Decorativo -->
+                        <svg class="ep-thumb-svg-bg" viewBox="0 0 200 112" fill="none">
+                            <rect width="200" height="112" fill="#201014" />
+                            <path d="M-20 120 L80 20 L160 120 Z" fill="rgba(229, 9, 20, 0.25)" />
+                            <circle cx="150" cy="40" r="30" fill="rgba(229, 9, 20, 0.15)" />
+                            <path d="M30 60 L60 30 L90 70 L130 20" stroke="rgba(255,255,255,0.3)" stroke-width="3"
+                                stroke-dasharray="4 4" />
+                        </svg>
+                        <div class="ep-thumb-play-btn">▶</div>
+                    </div>
+                    <div class="ep-item-details">
+                        <div class="ep-title-duration-row">
+                            <h3 class="ep-item-title">Tomada de Decisão Autônoma</h3>
+                            <span class="ep-item-duration">2min</span>
+                        </div>
+                        <p class="ep-item-synopsis">
+                            Os colaboradores possuem ampla autonomia para agir no dia a dia, sem depender de aprovações
+                            constantes ou travas burocráticas: <strong>"Não espere ordens: decida com base no melhor
+                                interesse da Netflix."</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ep 2 -->
+                <div class="ep-netflix-row" onclick="goToSlide(5)">
+                    <div class="ep-item-number">2</div>
+                    <div class="ep-item-thumbnail">
+                        <!-- SVG Thumbnail Decorativo -->
+                        <svg class="ep-thumb-svg-bg" viewBox="0 0 200 112" fill="none">
+                            <rect width="200" height="112" fill="#181216" />
+                            <circle cx="60" cy="56" r="35" fill="rgba(229, 9, 20, 0.2)" />
+                            <circle cx="140" cy="56" r="35" fill="rgba(255, 255, 255, 0.08)" />
+                            <line x1="60" y1="56" x2="140" y2="56" stroke="rgba(229, 9, 20, 0.4)" stroke-width="4" />
+                        </svg>
+                        <div class="ep-thumb-play-btn">▶</div>
+                    </div>
+                    <div class="ep-item-details">
+                        <div class="ep-title-duration-row">
+                            <h3 class="ep-item-title">Comunicação Aberta & Troca de Opiniões</h3>
+                            <span class="ep-item-duration">2min</span>
+                        </div>
+                        <p class="ep-item-synopsis">
+                            A troca de feedbacks construtivos é uma prática diária e natural entre líderes e liderados.
+                            O erro criativo não é punido quando gera aprendizado ágil para toda a equipe.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ep 3 -->
+                <div class="ep-netflix-row" onclick="goToSlide(5)">
+                    <div class="ep-item-number">3</div>
+                    <div class="ep-item-thumbnail">
+                        <!-- SVG Thumbnail Decorativo -->
+                        <svg class="ep-thumb-svg-bg" viewBox="0 0 200 112" fill="none">
+                            <rect width="200" height="112" fill="#1c1214" />
+                            <rect x="30" y="60" width="25" height="40" fill="rgba(229, 9, 20, 0.3)" />
+                            <rect x="65" y="45" width="25" height="55" fill="rgba(229, 9, 20, 0.4)" />
+                            <rect x="100" y="30" width="25" height="70" fill="rgba(229, 9, 20, 0.6)" />
+                            <rect x="135" y="15" width="25" height="85" fill="rgba(229, 9, 20, 0.8)" />
+                        </svg>
+                        <div class="ep-thumb-play-btn">▶</div>
+                    </div>
+                    <div class="ep-item-details">
+                        <div class="ep-title-duration-row">
+                            <h3 class="ep-item-title">Ambiente de Alto Desempenho e Cooperação</h3>
+                            <span class="ep-item-duration">2min</span>
+                        </div>
+                        <p class="ep-item-synopsis">
+                            Cultura pragmática com foco na melhoria contínua e em entregas reais de alto valor.
+                            Profissionais que cooperam bem e elevam o nível coletivo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: PLAYER NETFLIX - A DINÂMICA DA AUTONOMIA EM AÇÃO (ALEXANDRE ROXA) -->
+        <div class="slide slide-player-netflix player-theme-autonomia" id="slide-5" data-speaker="Alexandre Roxa"
+            data-time="~1 min"
+            data-notes="Cena em Reprodução: Explicar o coração do Comportamento Observável. Como os colaboradores tomam decisões sozinhos, como os erros são absorvidos rapidamente e por que a comunicação transparente substitui a hierarquia rígida.">
+            <!-- SVG Fundo Cinemático -->
+            <svg class="player-svg-backdrop" viewBox="0 0 1920 1080" fill="none">
+                <circle cx="960" cy="350" r="550" stroke="rgba(229, 9, 20, 0.25)" stroke-width="1.5"
+                    stroke-dasharray="12 12" />
+                <circle cx="960" cy="350" r="750" stroke="rgba(229, 9, 20, 0.15)" stroke-width="1" />
+                <line x1="200" y1="540" x2="1720" y2="540" stroke="rgba(255, 255, 255, 0.05)" stroke-width="2" />
+                <path d="M0 1080 L600 500 L1200 800 L1920 300" stroke="rgba(229, 9, 20, 0.15)" stroke-width="3" />
+            </svg>
+
+            <div class="player-top-bar">
+                <div class="player-series-title">
+                    <span style="color: var(--netflix-red); font-weight: 900;">NETFLIX ORIGINAL</span>
+                    <span>•</span>
+                    <span>Temporada 1 • Comportamento Observável</span>
+                    <span class="player-badge-4k">ULTRA HD 4K</span>
+                </div>
+                <div style="font-size: 1.3rem; color: #aaa;">Episódio 1: Decisão & Erro Ágil</div>
+            </div>
+
+            <div class="player-main-stage">
+                <div class="player-giant-headline">
+                    "Decisões rápidas tomadas por quem está na linha de frente valem mais do que meses de aprovações
+                    burocráticas."
+                </div>
+
+                <div class="player-highlight-card">
+                    <div class="player-highlight-text">
+                        A Regra de Ouro: "Aja com base no que é melhor para o negócio, não para agradar seu chefe."
+                    </div>
+                    <div class="player-highlight-sub">
+                        O erro honesto e criativo é tolerado quando gera aprendizado imediato. O que não é tolerado é a
+                        inação ou a omissão por medo de errar.
+                    </div>
+                </div>
+
+                <div class="player-columns-3grid">
+                    <div class="player-scene-box">
+                        <span class="player-box-title">Autonomia Real</span>
+                        <span class="player-box-desc">Sem necessidade de assinatura de superiores para gastos
+                            estratégicos ou testes de mercado.</span>
+                    </div>
+
+                    <div class="player-scene-box">
+                        <span class="player-box-title">Feedback Imediato</span>
+                        <span class="player-box-desc">Opiniões compartilhadas abertamente em tempo real, evitando
+                            conversas de corredor e retrabalho.</span>
+                    </div>
+
+                    <div class="player-scene-box">
+                        <span class="player-box-title">Foco na Entrega</span>
+                        <span class="player-box-desc">Avaliação baseada no impacto real gerado para os clientes e para a
+                            empresa, não em burocracias.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-bottom-controls-wrap">
+                <div class="player-timeline-track" onclick="handleTrackClick(event)">
+                    <div class="player-timeline-fill" style="width: 28%;">
+                        <div class="player-timeline-handle"></div>
+                    </div>
+                </div>
+                <div class="player-buttons-strip">
+                    <div class="player-controls-left">
+                        <span style="cursor: pointer;" onclick="togglePlayPause()">⏸</span>
+                        <span style="cursor: pointer;" onclick="prevSlide()">⏮ 10s</span>
+                        <span style="cursor: pointer;" onclick="nextSlide()">10s ⏭</span>
+                        <span>🔊</span>
+                        <span style="font-size: 1.15rem; color: #aaa; margin-left: 10px;">Autonomia em Ação (02:45 /
+                            10:00)</span>
+                    </div>
+                    <div class="player-controls-right">
+                        <span>💬 Áudio & Legendas</span>
+                        <span>🔲 Velocidade (1.0x)</span>
+                        <span style="cursor: pointer;" onclick="toggleFullScreen()">⛶ Tela Cheia</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: TEMPORADA 2 - NORMAS DE CONVIVÊNCIA & ÉTICA (ANTONIO DRUDI) [LISTA DE EPISÓDIOS - TEMA ESMERALDA] -->
+        <div class="slide episodes-view-slide ep-bg-season2" id="slide-6" data-speaker="Antonio Drudi"
+            data-time="~1 min"
+            data-notes="Temporada 2: Normas da Netflix. Apresentar os episódios: Ep 1 - Menos Burocracia, Mais Bom Senso; Ep 2 - As 4 Diretrizes Inegociáveis (Ética, Respeito/Antiassédio, Confidencialidade e Consciência de Recursos).">
+            <div class="ep-netflix-header-row">
+                <h2 class="ep-netflix-main-heading">Episódios</h2>
+                <div class="ep-season-select-box" onclick="nextSlide()">
+                    <span>Temporada 2: Normas & Convivência</span>
+                    <span>▾</span>
+                </div>
+            </div>
+
+            <div class="ep-season-sub-info">
+                <span>Temporada 2:</span>
+                <span class="ep-rating-badge" style="background-color: #00b020;">14</span>
+                <span class="ep-category-tag">ética corporativa, respeito mútuo & transparência</span>
+            </div>
+
+            <div class="ep-vertical-list">
+                <!-- Ep 1 -->
+                <div class="ep-netflix-row active-row">
+                    <div class="ep-item-number">1</div>
+                    <div class="ep-item-thumbnail">
+                        <!-- SVG Thumbnail Decorativo -->
+                        <svg class="ep-thumb-svg-bg" viewBox="0 0 200 112" fill="none">
+                            <rect width="200" height="112" fill="#0f1f16" />
+                            <circle cx="100" cy="56" r="40" stroke="rgba(0, 176, 32, 0.4)" stroke-width="3" />
+                            <path d="M80 56 L95 70 L125 42" stroke="rgba(0, 176, 32, 0.9)" stroke-width="4"
+                                stroke-linecap="round" />
+                        </svg>
+                        <div class="ep-thumb-play-btn">▶</div>
+                    </div>
+                    <div class="ep-item-details">
+                        <div class="ep-title-duration-row">
+                            <h3 class="ep-item-title">Menos Burocracia, Mais Bom Senso</h3>
+                            <span class="ep-item-duration">2min</span>
+                        </div>
+                        <p class="ep-item-synopsis">
+                            Diferente de organizações tradicionais repletas de manuais burocráticos e fiscalização
+                            excessiva, a Netflix adota diretrizes baseadas no bom senso e na responsabilidade
+                            individual: <strong>"A empresa dá total liberdade de decisão, mas espera postura ética e
+                                transparência em todas as ações."</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ep 2 -->
+                <div class="ep-netflix-row">
+                    <div class="ep-item-number">2</div>
+                    <div class="ep-item-thumbnail">
+                        <!-- SVG Thumbnail Decorativo -->
+                        <svg class="ep-thumb-svg-bg" viewBox="0 0 200 112" fill="none">
+                            <rect width="200" height="112" fill="#12241a" />
+                            <path d="M100 20 L140 35 V65 C140 85 100 100 100 100 C100 100 60 85 60 65 V35 Z"
+                                fill="rgba(0, 176, 32, 0.25)" stroke="rgba(0, 176, 32, 0.6)" stroke-width="2" />
+                            <line x1="85" y1="55" x2="115" y2="55" stroke="#fff" stroke-width="2" />
+                        </svg>
+                        <div class="ep-thumb-play-btn">▶</div>
+                    </div>
+                    <div class="ep-item-details">
+                        <div class="ep-title-duration-row">
+                            <h3 class="ep-item-title">As Quatro Diretrizes Fundamentais de Conduta</h3>
+                            <span class="ep-item-duration">2min</span>
+                        </div>
+                        <ul class="ep-column-checklist">
+                            <li><span class="ep-bullet-red" style="color: #00b020;">•</span> <span><strong>Ética e
+                                        Honestidade:</strong> Integridade absoluta e cumprimento das leis em todas as
+                                    operações.</span></li>
+                            <li><span class="ep-bullet-red" style="color: #00b020;">•</span> <span><strong>Respeito e
+                                        Inclusão:</strong> Tolerância zero para qualquer forma de discriminação,
+                                    preconceito ou assédio.</span></li>
+                            <li><span class="ep-bullet-red" style="color: #00b020;">•</span>
+                                <span><strong>Confidencialidade:</strong> Sigilo rigoroso de dados estratégicos,
+                                    financeiros e produções originais.</span>
+                            </li>
+                            <li><span class="ep-bullet-red" style="color: #00b020;">•</span> <span><strong>Consciência
+                                        de Recursos:</strong> Responsabilidade com despesas corporativas, evitando
+                                    desperdícios.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: PLAYER NETFLIX - OS 9 VALORES DOMINANTES EM CENA (CRISTINA) -->
+        <div class="slide slide-player-netflix player-theme-valores" id="slide-7" data-speaker="Cristina"
+            data-time="~1 min 15s"
+            data-notes="Temporada 3: Os 9 Valores Dominantes da Netflix. Apresentar os 9 valores divididos em 3 blocos: 1) A Tríade da Entrega (Julgamento, Comunicação e Impacto); 2) O Motor da Reinvenção (Curiosidade, Inovação e Coragem); 3) A Força Coletiva (Paixão, Honestidade e Altruísmo). Destaque para Coragem e Altruísmo!">
+            <!-- SVG Fundo Cinemático Dourado -->
+            <svg class="player-svg-backdrop" viewBox="0 0 1920 1080" fill="none">
+                <polygon points="960,100 1200,450 960,800 720,450" stroke="rgba(245, 166, 35, 0.25)" stroke-width="2" />
+                <polygon points="960,200 1100,450 960,700 820,450" stroke="rgba(245, 166, 35, 0.15)"
+                    stroke-width="1.5" />
+                <circle cx="400" cy="540" r="250" stroke="rgba(245, 166, 35, 0.12)" stroke-width="1" />
+                <circle cx="1520" cy="540" r="250" stroke="rgba(245, 166, 35, 0.12)" stroke-width="1" />
+                <line x1="100" y1="900" x2="1820" y2="900" stroke="rgba(245, 166, 35, 0.1)" stroke-width="2" />
+            </svg>
+
+            <div class="player-top-bar">
+                <div class="player-series-title">
+                    <span style="color: var(--netflix-red); font-weight: 900;">NETFLIX ORIGINAL</span>
+                    <span>•</span>
+                    <span>Temporada 3 • Os 9 Valores Dominantes</span>
+                    <span class="player-badge-4k">ULTRA HD 4K</span>
+                </div>
+                <div style="font-size: 1.3rem; color: #aaa;">Episódio Especial: O DNA da Performance</div>
+            </div>
+
+            <div class="player-main-stage">
+                <div class="player-giant-headline">
+                    "Valores reais de uma empresa não são o que está escrito no quadro da parede, mas sim quem ela
+                    contrata, promove e demite."
+                </div>
+
+                <div class="player-highlight-card gold-border">
+                    <div class="player-highlight-text" style="color: var(--accent-gold);">
+                        Os 9 Princípios Inegociáveis que Movem a Netflix
+                    </div>
+                    <div class="player-highlight-sub">
+                        Excelência diária sustentada por profissionais brilhantes que combinam coragem técnica e
+                        humildade coletiva.
+                    </div>
+                </div>
+
+                <div class="player-columns-3grid">
+                    <div class="player-scene-box">
+                        <span class="player-box-title" style="color: var(--accent-gold);">3 Pilares da Entrega</span>
+                        <ul class="ep-column-checklist">
+                            <li><span class="ep-bullet-red" style="color: var(--accent-gold);">•</span>
+                                <span><strong>Julgamento:</strong> Intuição unida a dados.</span>
+                            </li>
+                            <li><span class="ep-bullet-red" style="color: var(--accent-gold);">•</span>
+                                <span><strong>Comunicação:</strong> Clareza e escuta ativa.</span>
+                            </li>
+                            <li><span class="ep-bullet-red" style="color: var(--accent-gold);">•</span>
+                                <span><strong>Impacto:</strong> Resultados consistentes.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="player-scene-box">
+                        <span class="player-box-title" style="color: var(--accent-gold);">Motor da Reinvenção</span>
+                        <ul class="ep-column-checklist">
+                            <li><span class="ep-bullet-red" style="color: var(--accent-gold);">•</span>
+                                <span><strong>Curiosidade:</strong> Aprendizado veloz.</span>
+                            </li>
+                            <li><span class="ep-bullet-red" style="color: var(--accent-gold);">•</span>
+                                <span><strong>Inovação:</strong> Soluções que simplificam.</span>
+                            </li>
+                            <li><span class="ep-bullet-red" style="color: var(--accent-gold);">•</span>
+                                <span><strong>Coragem:</strong> Franqueza e assumir riscos.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="player-scene-box">
+                        <span class="player-box-title" style="color: var(--accent-gold);">Força Coletiva</span>
+                        <ul class="ep-column-checklist">
+                            <li><span class="ep-bullet-red" style="color: var(--accent-gold);">•</span>
+                                <span><strong>Paixão:</strong> Inspirar os companheiros.</span>
+                            </li>
+                            <li><span class="ep-bullet-red" style="color: var(--accent-gold);">•</span>
+                                <span><strong>Honestidade:</strong> Sinceridade radical.</span>
+                            </li>
+                            <li><span class="ep-bullet-red" style="color: var(--accent-gold);">•</span>
+                                <span><strong>Altruísmo:</strong> A empresa acima do ego.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-bottom-controls-wrap">
+                <div class="player-timeline-track" onclick="handleTrackClick(event)">
+                    <div class="player-timeline-fill" style="width: 50%; background-color: var(--netflix-red);">
+                        <div class="player-timeline-handle"
+                            style="background-color: var(--netflix-red); box-shadow: 0 0 10px rgba(245, 166, 35, 0.9);">
+                        </div>
+                    </div>
+                </div>
+                <div class="player-buttons-strip">
+                    <div class="player-controls-left">
+                        <span style="cursor: pointer;" onclick="togglePlayPause()">⏸</span>
+                        <span style="cursor: pointer;" onclick="prevSlide()">⏮ 10s</span>
+                        <span style="cursor: pointer;" onclick="nextSlide()">10s ⏭</span>
+                        <span>🔊</span>
+                        <span style="font-size: 1.15rem; color: #aaa; margin-left: 10px;">O DNA de Valores em Cena
+                            (05:00 / 10:00)</span>
+                    </div>
+                    <div class="player-controls-right">
+                        <span>💬 Áudio & Legendas</span>
+                        <span>🔲 Velocidade (1.0x)</span>
+                        <span style="cursor: pointer;" onclick="toggleFullScreen()">⛶ Tela Cheia</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: PLAYER NETFLIX - FILOSOFIA "A REGRA É NÃO TER REGRAS" (ANGELA MELO) -->
+        <div class="slide slide-player-netflix player-theme-filosofia" id="slide-8" data-speaker="Angela Melo"
+            data-time="~1 min 30s"
+            data-notes="Temporada 4: Filosofia Administrativa ('A Regra é Não Ter Regras' de Reed Hastings e Erin Meyer). Detalhar os 6 pilares: 1) Liberdade com Responsabilidade; 2) Densidade de Talento; 3) Contexto, Não Controle; 4) Radical Candor; 5) Inovação > Eficiência; 6) Decisões Coletivas.">
+            <!-- SVG Fundo Cinemático Azul Studio -->
+            <svg class="player-svg-backdrop" viewBox="0 0 1920 1080" fill="none">
+                <rect x="200" y="200" width="1520" height="680" rx="20" stroke="rgba(0, 113, 235, 0.18)"
+                    stroke-width="2" />
+                <path d="M200 400 H1720 M200 680 H1720 M600 200 V880 M1320 200 V880" stroke="rgba(0, 113, 235, 0.08)"
+                    stroke-width="1.5" />
+                <circle cx="960" cy="540" r="400" stroke="rgba(0, 113, 235, 0.2)" stroke-width="1.5"
+                    stroke-dasharray="16 8" />
+            </svg>
+
+            <div class="player-top-bar">
+                <div class="player-series-title">
+                    <span style="color: var(--netflix-red); font-weight: 900;">NETFLIX ORIGINAL</span>
+                    <span>•</span>
+                    <span>Temporada 4 • Filosofia Administrativa</span>
+                    <span class="player-badge-4k">ULTRA HD 4K</span>
+                </div>
+                <div style="font-size: 1.3rem; color: #aaa;">Livro: Reed Hastings & Erin Meyer</div>
+            </div>
+
+            <div class="player-main-stage">
+                <div class="player-giant-headline">
+                    "Lidere com contexto, não com controle. Dê aos talentos brilhantes a liberdade para surpreender."
+                </div>
+
+                <div class="player-highlight-card blue-border">
+                    <div class="player-highlight-text" style="color: #68aeff;">
+                        Os Pilares da Gestão Centrada em Adultos Responsáveis
+                    </div>
+                    <div class="player-highlight-sub">
+                        Quando você reúne alta densidade de talento e elimina o controle excessivo, a inovação flui com
+                        velocidade imbatível.
+                    </div>
+                </div>
+
+                <div class="player-columns-3grid">
+                    <div class="player-scene-box">
+                        <span class="player-box-title" style="color: #68aeff;">Densidade de Talento</span>
+                        <span class="player-box-desc">Equipes formadas apenas por pessoas excepcionais. A convivência
+                            com mentes brilhantes eleva naturalmente a barra de todos.</span>
+                    </div>
+
+                    <div class="player-scene-box">
+                        <span class="player-box-title" style="color: #68aeff;">Contexto, Não Controle</span>
+                        <span class="player-box-desc">Líderes fornecem metas, riscos e cenários claros para que o
+                            colaborador decida sozinho com precisão cirúrgica.</span>
+                    </div>
+
+                    <div class="player-scene-box">
+                        <span class="player-box-title" style="color: #68aeff;">Radical Candor</span>
+                        <span class="player-box-desc">Sinceridade extrema e transparente. Feedbacks diretos e imediatos
+                            feitos com respeito para aprendizado ágil.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-bottom-controls-wrap">
+                <div class="player-timeline-track" onclick="handleTrackClick(event)">
+                    <div class="player-timeline-fill" style="width: 65%; background-color: var(--netflix-red);">
+                        <div class="player-timeline-handle"
+                            style="background-color: var(--netflix-red); box-shadow: 0 0 10px rgba(0, 113, 235, 0.9);">
+                        </div>
+                    </div>
+                </div>
+                <div class="player-buttons-strip">
+                    <div class="player-controls-left">
+                        <span style="cursor: pointer;" onclick="togglePlayPause()">⏸</span>
+                        <span style="cursor: pointer;" onclick="prevSlide()">⏮ 10s</span>
+                        <span style="cursor: pointer;" onclick="nextSlide()">10s ⏭</span>
+                        <span>🔊</span>
+                        <span style="font-size: 1.15rem; color: #aaa; margin-left: 10px;">Liderança sem Amarras (06:30 /
+                            10:00)</span>
+                    </div>
+                    <div class="player-controls-right">
+                        <span>💬 Áudio & Legendas</span>
+                        <span>🔲 Velocidade (1.0x)</span>
+                        <span style="cursor: pointer;" onclick="toggleFullScreen()">⛶ Tela Cheia</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: TEMPORADA 5 - REGRAS MÍNIMAS & POLÍTICAS (RENATA FREITAS) [LISTA DE EPISÓDIOS - TEMA ÂMBAR] -->
+        <div class="slide episodes-view-slide ep-bg-season5" id="slide-9" data-speaker="Renata Freitas"
+            data-time="~1 min 15s"
+            data-notes="Temporada 5: Regras Mínimas & Políticas Inteligentes. Apresentar os 3 episódios: Ep 1 - Política de Despesas ('Aja no interesse da Netflix'); Ep 2 - Férias Flexíveis ('Tire férias', sem contagem burocrática); Ep 3 - Limites Inegociáveis (Antiassédio, proteção de segredos e combate a Insider Trading).">
+            <div class="ep-netflix-header-row">
+                <h2 class="ep-netflix-main-heading">Episódios</h2>
+                <div class="ep-season-select-box" onclick="nextSlide()">
+                    <span>Temporada 5: Regras & Políticas</span>
+                    <span>▾</span>
+                </div>
+            </div>
+
+            <div class="ep-season-sub-info">
+                <span>Temporada 5:</span>
+                <span class="ep-rating-badge" style="background-color: #f5a623;">ADM</span>
+                <span class="ep-category-tag">autonomia responsável & fronteiras inegociáveis</span>
+            </div>
+
+            <div class="ep-vertical-list">
+                <!-- Ep 1 -->
+                <div class="ep-netflix-row active-row">
+                    <div class="ep-item-number">1</div>
+                    <div class="ep-item-thumbnail">
+                        <!-- SVG Thumbnail Decorativo -->
+                        <svg class="ep-thumb-svg-bg" viewBox="0 0 200 112" fill="none">
+                            <rect width="200" height="112" fill="#241a0f" />
+                            <rect x="40" y="30" width="120" height="60" rx="8" stroke="rgba(245, 166, 35, 0.6)"
+                                stroke-width="2" fill="rgba(245, 166, 35, 0.15)" />
+                            <circle cx="70" cy="60" r="14" fill="rgba(245, 166, 35, 0.4)" />
+                            <line x1="95" y1="52" x2="140" y2="52" stroke="#fff" stroke-width="2" />
+                            <line x1="95" y1="68" x2="125" y2="68" stroke="rgba(255,255,255,0.6)" stroke-width="2" />
+                        </svg>
+                        <div class="ep-thumb-play-btn">▶</div>
+                    </div>
+                    <div class="ep-item-details">
+                        <div class="ep-title-duration-row">
+                            <h3 class="ep-item-title">Política de Despesas e Viagens</h3>
+                            <span class="ep-item-duration">2min</span>
+                        </div>
+                        <p class="ep-item-synopsis">
+                            A diretriz resume-se no princípio: <strong>"Aja de acordo com os interesses da
+                                Netflix"</strong>. Em vez de manuais engessados de reembolso, a empresa confia no bom
+                            senso do funcionário para tomar decisões financeiras conscientes e evitar desperdícios.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ep 2 -->
+                <div class="ep-netflix-row">
+                    <div class="ep-item-number">2</div>
+                    <div class="ep-item-thumbnail">
+                        <!-- SVG Thumbnail Decorativo -->
+                        <svg class="ep-thumb-svg-bg" viewBox="0 0 200 112" fill="none">
+                            <rect width="200" height="112" fill="#261b0c" />
+                            <circle cx="100" cy="56" r="28" fill="rgba(245, 166, 35, 0.3)"
+                                stroke="rgba(245, 166, 35, 0.7)" stroke-width="2" />
+                            <path d="M100 15 V25 M100 87 V97 M59 56 H69 M131 56 H141" stroke="rgba(245, 166, 35, 0.6)"
+                                stroke-width="3" stroke-linecap="round" />
+                        </svg>
+                        <div class="ep-thumb-play-btn">▶</div>
+                    </div>
+                    <div class="ep-item-details">
+                        <div class="ep-title-duration-row">
+                            <h3 class="ep-item-title">Política de Férias Flexíveis</h3>
+                            <span class="ep-item-duration">2min</span>
+                        </div>
+                        <p class="ep-item-synopsis">
+                            A orientação oficial é simplesmente: <strong>"Tire férias"</strong>. Não há contagem rígida
+                            de dias nem aprovações burocráticas; o colaborador avalia o cronograma de entregas junto à
+                            sua equipe e descansa quando necessário para manter o alto rendimento.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ep 3 -->
+                <div class="ep-netflix-row">
+                    <div class="ep-item-number">3</div>
+                    <div class="ep-item-thumbnail">
+                        <!-- SVG Thumbnail Decorativo -->
+                        <svg class="ep-thumb-svg-bg" viewBox="0 0 200 112" fill="none">
+                            <rect width="200" height="112" fill="#20150d" />
+                            <rect x="70" y="45" width="60" height="45" rx="6" fill="rgba(245, 166, 35, 0.25)"
+                                stroke="rgba(245, 166, 35, 0.6)" stroke-width="2" />
+                            <path d="M80 45 V35 C80 24 120 24 120 35 V45" stroke="rgba(245, 166, 35, 0.7)"
+                                stroke-width="3" fill="none" />
+                        </svg>
+                        <div class="ep-thumb-play-btn">▶</div>
+                    </div>
+                    <div class="ep-item-details">
+                        <div class="ep-title-duration-row">
+                            <h3 class="ep-item-title">Limites Inegociáveis & Processos Estratégicos</h3>
+                            <span class="ep-item-duration">2min</span>
+                        </div>
+                        <p class="ep-item-synopsis">
+                            A autonomia possui fronteiras rígidas: tolerância zero contra assédio, proteção estrita a
+                            informações confidenciais e proibição severa de <strong>Insider Trading</strong>. Processos
+                            mantidos simples e eficientes para lançamentos e campanhas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: PLAYER NETFLIX - O PREÇO DA AUTONOMIA / KEEPER TEST & TURNOVER (VINÍCIUS MOTA) -->
+        <div class="slide slide-player-netflix player-theme-keeper" id="slide-10" data-speaker="Vinícius Mota"
+            data-time="~1 min 15s"
+            data-notes="Capítulo 3: Quando a Inovação é Prioridade. Explicar o famoso Keeper Test (Teste de Retenção): 'Se essa pessoa me dissesse que vai para a concorrência amanhã, eu lutaria para mantê-la?'. Se não, é demitida com indenização generosa. Esforço isolado não basta, apenas excelência. Turnover total de 15% (8% demissões intencionais por performance). Ambiente de altíssima exigência emocional.">
+            <!-- SVG Fundo Dramático Vermelho Netflix -->
+            <svg class="player-svg-backdrop" viewBox="0 0 1920 1080" fill="none">
+                <circle cx="960" cy="400" r="600" stroke="rgba(229, 9, 20, 0.3)" stroke-width="2" />
+                <circle cx="960" cy="400" r="400" stroke="rgba(229, 9, 20, 0.2)" stroke-width="1.5" />
+                <circle cx="960" cy="400" r="200" stroke="rgba(229, 9, 20, 0.15)" stroke-width="1" />
+                <path d="M0 0 L960 400 L1920 0 M0 1080 L960 400 L1920 1080" stroke="rgba(229, 9, 20, 0.08)"
+                    stroke-width="2" />
+            </svg>
+
+            <div class="player-top-bar">
+                <div class="player-series-title">
+                    <span style="color: var(--netflix-red); font-weight: 900;">NETFLIX ORIGINAL</span>
+                    <span>•</span>
+                    <span>Temporada 6 • O Preço da Autonomia</span>
+                    <span class="player-badge-4k">ULTRA HD 4K</span>
+                </div>
+                <div style="font-size: 1.3rem; color: #aaa;">Episódio Especial: O Keeper Test</div>
+            </div>
+
+            <div class="player-main-stage">
+                <div class="player-giant-headline" style="font-size: 2.7rem;">
+                    "Se este colaborador dissesse que está indo para o concorrente amanhã,<br>eu lutaria com todas as
+                    forças para mantê-lo na equipe?"
+                </div>
+
+                <div class="player-highlight-card">
+                    <div class="player-highlight-text">
+                        Se a resposta for <span
+                            style="color: var(--netflix-red); font-size: 1.9rem; text-decoration: underline;">NÃO</span>,
+                        ele é desligado imediatamente com um pacote generoso de rescisão.
+                    </div>
+                    <div class="player-highlight-sub">
+                        Na Netflix, o <strong>esforço isolado não garante estabilidade</strong>: apenas o resultado de
+                        excelência contínua importa. Não há espaço para o desempenho mediano.
+                    </div>
+                </div>
+
+                <div class="player-columns-3grid">
+                    <div class="player-scene-box center-align">
+                        <span class="player-stat-big">15%</span>
+                        <span class="player-box-title">Turnover Anual Total</span>
+                        <span class="player-box-desc">Alinhado à média das Big Techs</span>
+                    </div>
+
+                    <div class="player-scene-box center-align">
+                        <span class="player-stat-big gold">8%</span>
+                        <span class="player-box-title">Demissões Involuntárias</span>
+                        <span class="player-box-desc">Filtro intencional de alta performance</span>
+                    </div>
+
+                    <div class="player-scene-box center-align">
+                        <span class="player-stat-big green">3% A 4%</span>
+                        <span class="player-box-title">Saídas Voluntárias</span>
+                        <span class="player-box-desc">Baixa taxa de pedidos de demissão</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-bottom-controls-wrap">
+                <div class="player-timeline-track" onclick="handleTrackClick(event)">
+                    <div class="player-timeline-fill" style="width: 85%;">
+                        <div class="player-timeline-handle"></div>
+                    </div>
+                </div>
+                <div class="player-buttons-strip">
+                    <div class="player-controls-left">
+                        <span style="cursor: pointer;" onclick="togglePlayPause()">⏸</span>
+                        <span style="cursor: pointer;" onclick="prevSlide()">⏮ 10s</span>
+                        <span style="cursor: pointer;" onclick="nextSlide()">10s ⏭</span>
+                        <span>🔊</span>
+                        <span style="font-size: 1.15rem; color: #aaa; margin-left: 10px;">O Teste de Retenção - Season
+                            Finale (08:45 / 10:00)</span>
+                    </div>
+                    <div class="player-controls-right">
+                        <span>💬 Áudio & Legendas</span>
+                        <span>🔲 Velocidade (1.0x)</span>
+                        <span style="cursor: pointer;" onclick="toggleFullScreen()">⛶ Tela Cheia</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: CONCLUSÃO (VINÍCIUS MOTA & GRUPO) -->
+        <div class="slide slide-inactive-screen" id="slide-11" data-speaker="Vinícius Mota (e Grupo)" data-time="~1 min"
+            data-notes="Conclusão Geral da Apresentação. Fazer a síntese: A Netflix provou que cultura organizacional ágil supera burocracia tradicional. Liberdade máxima combinada com responsabilidade implacável. Abrir espaço para perguntas da banca/professor e dos colegas de sala.">
+            <div class="inactive-box-content">
+                <h2 class="inactive-main-title"></h2>
+
+                <div class="inactive-summary-card">
+                    <h3>Síntese: O Equilíbrio Entre Liberdade e Responsabilidade</h3>
+                    <p>
+                        A liderança global da Netflix não é fruto do acaso ou apenas da tecnologia de streaming, mas sim
+                        de uma <strong>Cultura Organizacional deliberadamente construída</strong> para combater a zona
+                        de conforto e a lentidão corporativa.
+                    </p>
+                    <p style="color: #dedede; margin-bottom: 0;">
+                        Ao substituir o controle burocrático pela alta densidade de talentos e transparência radical, a
+                        empresa garante agilidade inigualável — cobrando em troca resiliência emocional e busca diária
+                        pela excelência.
+                    </p>
+                </div>
+
+                <div class="inactive-buttons-row">
+                    <!--
+                    <button class="btn-restart-show" onclick="goToSlide(1)">🔄 Reiniciar Apresentação</button>
+                    <button class="btn-qa-open" onclick="nextSlide()">📚 Ver Referências (ABNT)</button>
+                -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: CRÉDITOS FINAIS & REFERÊNCIAS ABNT -->
+        <div class="slide slide-credits" id="slide-12"
+            data-speaker="Grupo (Alexandre, Angela, Antonio, Cristina, Renata, Vinícius)" data-time="~30 seg"
+            data-notes="Agradecimentos finais e exibição das referências bibliográficas formatadas segundo as normas da ABNT.">
+            <div class="content-header-box"
+                style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 18px; margin-bottom: 25px;">
+                <div>
+                    <div
+                        style="font-size: 1.25rem; font-weight: 700; text-transform: uppercase; color: var(--netflix-red); margin-bottom: 6px;">
+                        Créditos & Fontes Acadêmicas</div>
+                    <h2 style="font-family: var(--font-brand); font-size: 3.2rem; font-weight: 900;">Referências
+                        Bibliográficas (ABNT)</h2>
+                </div>
+                <div style="color: #aaa; font-size: 1.2rem;">ETEC Irmã Agostina • 2026</div>
+            </div>
+
+            <div class="references-grid">
+                <div class="ref-item-box">
+                    <strong>HASTINGS, Reed; MEYER, Erin.</strong> A regra é não ter regras: A Netflix e a
+                    cultura da
+                    reinvenção. Rio de Janeiro: Intrínseca, 2020.
+                </div>
+
+                <div class="ref-item-box">
+                    <strong>NETFLIX, INC.</strong> The Best Work of Our Lives: Netflix Culture Memo. Los Gatos:
+                    Netflix,
+                    2024. Disponível em: jobs.netflix.com/culture.
+                </div>
+
+                <div class="ref-item-box">
+                    <strong>NETFLIX, INC.</strong> Code of Ethics & Governance Documents. Netflix Investor
+                    Relations,
+                    2026. Disponível em: ir.netflix.net.
+                </div>
+
+                <div class="ref-item-box">
+                    <strong>SLYS, Anna.</strong> "Keeper Test": Netflix's Strategy for Employee Retention and
+                    Fostering
+                    Excellence. iam.slys.dev, 2023.
+                </div>
+
+                <div class="ref-item-box">
+                    <strong>CENTUM SEARCH.</strong> Employee Tenure and Retention for Tech Leaders in 2024.
+                    LinkedIn
+                    Pulse, 2024.
+                </div>
+
+                <div class="ref-item-box">
+                    <strong>WIKIPÉDIA.</strong> Netflix: História, streaming e expansão global. Flórida:
+                    Wikimedia
+                    Foundation, 2026.
+                </div>
+            </div>
+            <!--
+                    <div style="margin-top: 40px; text-align: center;">
+                     
+                <p
+                    style="font-size: 1.6rem; font-weight: 700; color: var(--netflix-red); font-family: var(--font-brand);">
+                    Obrigado pela atenção! Perguntas e Comentários? 🍿🎬
+                </p>
+                -->
+        </div>
+    </div>
+
+    <!-- BARRA DE NAVEGAÇÃO HUD 
+        <div class="hud-navigation">
+            <div class="hud-progress-container">
+                <div class="hud-slide-counter" id="slide-num-indicator">SLIDE 1 / 12</div>
+                <div class="hud-progress-track" onclick="handleTrackClick(event)">
+                    <div class="hud-progress-fill" id="hud-progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="hud-controls">
+                <span class="hud-shortcuts-hint">Atalhos: [← / →] Navegar | [Espaço] Avançar | [F] Tela Cheia | [N] Guia
+                    de Fala | [T] Tudum</span>
+                <button class="hud-btn" onclick="prevSlide()">◀ Anterior</button>
+                <button class="hud-btn" onclick="nextSlide()">Próximo ▶</button>
+                <button class="hud-btn" onclick="toggleNotes()">📝 Guia de Fala</button>
+                <button class="hud-btn" onclick="toggleFullScreen()">⛶ Tela Cheia</button>
+            </div>
+        </div>
+
+        <!-- MODAL DE NOTAS DO ORADOR / GUIA DE FALA
+        <div id="speaker-notes-modal">
+            <div class="notes-header">
+                <h4><span>🎙️</span> Guia de Apresentação</h4>
+                <span style="cursor: pointer; font-size: 1.3rem;" onclick="toggleNotes()">✕</span>
+            </div>
+            <div class="notes-body" id="notes-content-text">
+                Carregando informações do apresentador...
+            </div>
+        </div>
+
+    </div>
+-->
+    <!-- SCRIPTS -->
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('hud-progress-bar');
+        const slideCounter = document.getElementById('slide-num-indicator');
+        const notesModal = document.getElementById('speaker-notes-modal');
+        const notesContentText = document.getElementById('notes-content-text');
+
+        function fitViewport() {
+            const viewport = document.getElementById('presentation-viewport');
+            const targetWidth = 1920;
+            const targetHeight = 1080;
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            const scaleX = windowWidth / targetWidth;
+            const scaleY = windowHeight / targetHeight;
+            const scale = Math.min(scaleX, scaleY);
+
+            viewport.style.transform = `scale(${scale})`;
+        }
+
+        window.addEventListener('resize', fitViewport);
+        window.addEventListener('DOMContentLoaded', () => {
+            fitViewport();
+            updateSlideUI(currentSlideIndex);
+        });
+
+        function showSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+
+            slides.forEach((s, idx) => {
+                s.classList.toggle('active', idx === index);
+            });
+
+            currentSlideIndex = index;
+            updateSlideUI(index);
+            if (document.activeElement && document.activeElement.blur) {
+                document.activeElement.blur();
+            }
+        }
+        function updateSlideUI(index) {
+            const currentSlideEl = slides[index];
+            const speaker = currentSlideEl.getAttribute('data-speaker') || 'Apresentador';
+            const time = currentSlideEl.getAttribute('data-time') || '~1 min';
+            const notes = currentSlideEl.getAttribute('data-notes') || 'Sem notas cadastradas para este slide.';
+
+            const progressPercent = ((index + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            slideCounter.textContent = `SLIDE ${index + 1} / ${totalSlides}`;
+
+            // Atualiza Guia de Fala
+            notesContentText.innerHTML = `
+                <div style="background: rgba(229, 9, 20, 0.15); border-left: 3px solid var(--netflix-red); padding: 8px 12px; border-radius: 4px; margin-bottom: 12px;">
+                    <p style="font-size: 1.15rem; color: #fff; margin-bottom: 4px;"><strong>🎙️ Apresentador(a):</strong> ${speaker}</p>
+                    <p style="font-size: 1.05rem; color: var(--accent-gold);"><strong>⏱️ Tempo Sugerido:</strong> ${time}</p>
+                </div>
+                <div style="font-size: 1.05rem; line-height: 1.55; color: #dedede;">
+                    <strong>Roteiro de Apresentação:</strong><br>${notes}
+                </div>
+            `;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                showSlide(currentSlideIndex + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                showSlide(currentSlideIndex - 1);
+            }
+        }
+
+        function goToSlide(slideNumber) {
+            showSlide(slideNumber - 1);
+        }
+
+        function handleTrackClick(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const clickPos = (e.clientX - rect.left) / rect.width;
+            const targetIndex = Math.floor(clickPos * totalSlides);
+            showSlide(targetIndex);
+        }
+
+        function toggleNotes() {
+            notesModal.classList.toggle('visible');
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log("Erro ao entrar em tela cheia:", err);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        function togglePlayPause() {
+            const fill = document.querySelector('.player-timeline-fill');
+            if (fill) {
+                fill.style.opacity = fill.style.opacity === '0.5' ? '1' : '0.5';
+            }
+        }
+
+        function playTudumSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+                const now = ctx.currentTime;
+
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(65.41, now);
+                osc1.frequency.exponentialRampToValueAtTime(32.70, now + 1.2);
+                gain1.gain.setValueAtTime(0.8, now);
+                gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.4);
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'sawtooth';
+                osc2.frequency.setValueAtTime(130.81, now);
+                osc2.frequency.exponentialRampToValueAtTime(98.00, now + 0.8);
+                gain2.gain.setValueAtTime(0.4, now);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+
+                const osc3 = ctx.createOscillator();
+                const gain3 = ctx.createGain();
+                osc3.type = 'triangle';
+                osc3.frequency.setValueAtTime(261.63, now);
+                gain3.gain.setValueAtTime(0.3, now);
+                gain3.gain.exponentialRampToValueAtTime(0.001, now + 1.6);
+                osc3.connect(gain3);
+                gain3.connect(ctx.destination);
+
+                osc1.start(now);
+                osc2.start(now);
+                osc3.start(now);
+
+                osc1.stop(now + 1.5);
+                osc2.stop(now + 1.0);
+                osc3.stop(now + 1.7);
+            } catch (e) {
+                console.log("Audio not supported or blocked:", e);
+            }
+        }
+
+        const tudumTrigger = document.getElementById('tudum-trigger');
+        if (tudumTrigger) {
+            tudumTrigger.addEventListener('click', playTudumSound);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key.toLowerCase() === 'f') {
+                toggleFullScreen();
+            } else if (e.key.toLowerCase() === 'n') {
+                toggleNotes();
+            } else if (e.key.toLowerCase() === 't') {
+                playTudumSound();
+            } else if (e.key === 'Home') {
+                showSlide(0);
+            } else if (e.key === 'End') {
+                showSlide(totalSlides - 1);
+            }
+        });
+    </script>
+</body>
+
+</html>
