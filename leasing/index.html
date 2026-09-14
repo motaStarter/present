@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Leasing — Arrendamento Mercantil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAFBFC;
+            --ink: #0D1117;
+            --ink-soft: #33394A;
+            --gold: #96650E;
+            --teal: #1F3A56;
+            --slate: #545E70;
+            --line: #B7BEC9;
+            --white: #FFFFFF;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0E1420;
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--ink);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Source Serif 4', serif;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        #presentation-viewport {
+            width: 1920px;
+            height: 1080px;
+            position: relative;
+            margin: 40px auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
+            background: var(--bg);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            display: none;
+            flex-direction: column;
+            padding: 100px 140px 80px;
+            background: var(--bg);
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide-eyebrow {
+            display: none;
+        }
+
+        /* mantido fora do design final */
+
+        .slide-title {
+            font-size: 76px;
+            line-height: 1.12;
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .slide-title.small {
+            font-size: 60px;
+        }
+
+        .rule {
+            width: 120px;
+            height: 7px;
+            background: var(--gold);
+            margin: 30px 0 48px;
+        }
+
+        .slide-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lead {
+            font-size: 33px;
+            line-height: 1.5;
+            color: var(--ink-soft);
+            max-width: 1300px;
+            font-weight: 500;
+        }
+
+        /* rodapé comum */
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            left: 140px;
+            right: 140px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 21px;
+            color: var(--slate);
+            font-weight: 500;
+            border-top: 2px solid var(--line);
+            padding-top: 20px;
+        }
+
+        .footer .doc-label {
+            font-size: 21px;
+        }
+
+        .footer .page-num {
+            font-size: 21px;
+            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+        }
+
+        /* ---------- CAPA ---------- */
+        .cover {
+            justify-content: center;
+        }
+
+        .cover .kicker {
+            font-size: 27px;
+            color: var(--teal);
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .cover h1 {
+            font-size: 150px;
+            letter-spacing: -2px;
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .cover .subtitle {
+            font-size: 36px;
+            color: var(--ink-soft);
+            margin-top: 26px;
+            max-width: 1100px;
+            font-weight: 500;
+        }
+
+        .cover .meta {
+            margin-top: 90px;
+            display: flex;
+            gap: 100px;
+        }
+
+        .cover .meta-block {
+            font-size: 25px;
+            color: var(--ink-soft);
+            font-weight: 500;
+        }
+
+        .cover .meta-block strong {
+            display: block;
+            color: var(--ink);
+            font-size: 26px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .cover .authors {
+            line-height: 1.75;
+        }
+
+        /* ---------- SUMÁRIO ---------- */
+        .toc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 10px;
+            max-width: 1300px;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: baseline;
+            gap: 32px;
+            padding: 28px 0;
+            border-bottom: 2px solid var(--line);
+            font-size: 36px;
+            font-weight: 500;
+        }
+
+        .toc-item .num {
+            color: var(--gold);
+            font-family: 'Source Serif 4', serif;
+            font-size: 40px;
+            width: 56px;
+            font-weight: 700;
+        }
+
+        .toc-item .label {
+            color: var(--ink);
+        }
+
+        /* ---------- BLOCOS / CARDS (tipos de leasing) ---------- */
+        .cols3 {
+            display: flex;
+            gap: 44px;
+            margin-top: 12px;
+            flex: 1;
+        }
+
+        .panel {
+            flex: 1;
+            background: var(--white);
+            border: 2px solid var(--line);
+            border-left: 10px solid var(--gold);
+            padding: 44px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .panel.teal {
+            border-left-color: var(--teal);
+        }
+
+        .panel.slate {
+            border-left-color: var(--slate);
+        }
+
+        .panel h3 {
+            font-size: 38px;
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .panel p {
+            font-size: 26px;
+            line-height: 1.55;
+            color: var(--ink-soft);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* ---------- DUAS COLUNAS SIMPLES ---------- */
+        .cols2 {
+            display: flex;
+            gap: 60px;
+            flex: 1;
+            margin-top: 10px;
+        }
+
+        .cols2 .col {
+            flex: 1;
+        }
+
+        .cols2 h3 {
+            font-size: 36px;
+            color: var(--ink);
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+
+        .cols2 p {
+            font-size: 28px;
+            line-height: 1.55;
+            color: var(--ink-soft);
+            font-weight: 500;
+        }
+
+        /* ---------- TABELA COMPARATIVA ---------- */
+        table.compare {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+        }
+
+        table.compare th,
+        table.compare td {
+            text-align: left;
+            padding: 28px 32px;
+            font-size: 27px;
+            vertical-align: top;
+            border-bottom: 2px solid var(--line);
+        }
+
+        table.compare th {
+            font-family: 'Source Serif 4', serif;
+            font-weight: 700;
+            font-size: 31px;
+            color: var(--ink);
+            border-bottom: 3px solid var(--ink);
+        }
+
+        table.compare td.row-label {
+            font-weight: 700;
+            color: var(--ink);
+            width: 300px;
+            font-size: 27px;
+        }
+
+        table.compare td {
+            color: var(--ink-soft);
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        /* ---------- EXEMPLO / ENCERRAMENTO ---------- */
+        .example-grid {
+            display: flex;
+            gap: 70px;
+            margin-top: 14px;
+            flex: 1;
+        }
+
+        .example-grid .col {
+            flex: 1;
+        }
+
+        .example-grid h3 {
+            font-size: 32px;
+            color: var(--gold);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .example-grid p {
+            font-size: 27px;
+            line-height: 1.6;
+            color: var(--ink-soft);
+            font-weight: 500;
+        }
+
+        .companies {
+            font-size: 30px;
+            color: var(--ink);
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .closing {
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .closing h1 {
+            font-size: 110px;
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .closing .authors-list {
+            margin-top: 64px;
+            font-size: 30px;
+            color: var(--ink-soft);
+            line-height: 1.85;
+            font-weight: 500;
+        }
+
+        .closing .authors-list strong {
+            color: var(--ink);
+        }
+
+        /* ---------- NAVEGAÇÃO (HUD) ---------- */
+        .hud-navigation {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 52px;
+            padding: 14px 26px;
+            backdrop-filter: blur(6px);
+        }
+
+        .hud-navigation button {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, .3);
+            background: rgba(255, 255, 255, .1);
+            color: #FFFFFF;
+            font-size: 26px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hud-navigation button:hover {
+            background: rgba(255, 255, 255, .22);
+        }
+
+        .hud-navigation .counter {
+            color: #E4E7ED;
+            font-size: 20px;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        /* ---------- IMPRESSÃO / EXPORTAÇÃO PDF ---------- */
+        @media print {
+            @page {
+                size: 1920px 1080px;
+                margin: 0;
+            }
+
+            html,
+            body {
+                display: block !important;
+                width: 1920px !important;
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: #000 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            #presentation-viewport {
+                display: block !important;
+                position: relative !important;
+                width: 1920px !important;
+                height: auto !important;
+                transform: none !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                background: #000 !important;
+            }
+
+            .hud-navigation {
+                display: none !important;
+            }
+
+            .slide {
+                position: relative !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 1920px !important;
+                height: 1080px !important;
+                margin: 0 !important;
+                display: flex !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                page-break-inside: avoid !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="presentation-viewport">
+
+        <!-- 1. CAPA -->
+        <section class="slide active cover">
+            <div class="kicker">Centro Paula Souza · ETEC Irmã Agostina · Técnico em Administração</div>
+            <h1>Leasing</h1>
+            <div class="subtitle">O arrendamento mercantil e como empresas usam esse contrato para usar bens sem
+                precisar comprá-los de imediato.</div>
+            <div class="meta">
+                <div class="meta-block authors">
+                    <strong>Autores</strong>
+                    Angela Melo<br>Alexandre Roxa<br>Rafael Bueno<br>Vinicius Mota
+                </div>
+                <div class="meta-block">
+                    <strong>Local e ano</strong>
+                    São Paulo<br>2026
+                </div>
+            </div>
+            <div class="footer">
+                <span class="doc-label">Leasing — Arrendamento Mercantil</span>
+                <span class="page-num">1 / 9</span>
+            </div>
+        </section>
+
+        <!-- 2. SUMÁRIO -->
+        <section class="slide">
+            <h2 class="slide-title">Sumário</h2>
+            <div class="rule"></div>
+            <div class="toc-list">
+                <div class="toc-item"><span class="num">1</span><span class="label">O que é Leasing, arrendadora e
+                        arrendatário</span></div>
+                <div class="toc-item"><span class="num">2</span><span class="label">Bem, prazo e parcelas</span></div>
+                <div class="toc-item"><span class="num">3</span><span class="label">Responsabilidades, manutenção e
+                        seguro</span></div>
+                <div class="toc-item"><span class="num">4</span><span class="label">Opção de compra, devolução e
+                        renovação</span></div>
+                <div class="toc-item"><span class="num">5</span><span class="label">Exemplo de empresa que utiliza o
+                        leasing</span></div>
+            </div>
+            <div class="footer">
+                <span class="doc-label">Leasing — Arrendamento Mercantil</span>
+                <span class="page-num">2 / 9</span>
+            </div>
+        </section>
+
+        <!-- 3. O QUE É LEASING -->
+        <section class="slide">
+            <h2 class="slide-title">1. O que é Leasing</h2>
+            <div class="rule"></div>
+            <div class="slide-body">
+                <p class="lead">O leasing, conhecido no Brasil como arrendamento mercantil, é uma modalidade de contrato
+                    parecida com um aluguel, com a possibilidade de compra no final do período. É muito usado para
+                    adquirir carros, máquinas, equipamentos e, em alguns casos, imóveis.</p>
+                <div class="cols2">
+                    <div class="col">
+                        <h3>Arrendador</h3>
+                        <p>A instituição financeira ou empresa de arrendamento mercantil, que é proprietária do bem
+                            durante o contrato.</p>
+                    </div>
+                    <div class="col">
+                        <h3>Arrendatário</h3>
+                        <p>O cliente — pessoa física ou jurídica — que utiliza o bem e paga pelo seu uso ao longo do
+                            contrato.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span class="doc-label">Leasing — Arrendamento Mercantil</span>
+                <span class="page-num">3 / 9</span>
+            </div>
+        </section>
+
+        <!-- 4. TIPOS DE LEASING -->
+        <section class="slide">
+            <h2 class="slide-title">Tipos de Leasing</h2>
+            <div class="rule"></div>
+            <div class="cols3">
+                <div class="panel">
+                    <h3>Financeiro</h3>
+                    <p>A instituição financeira compra o bem escolhido pelo cliente e o cede em formato de aluguel por
+                        prazo longo, com forte intenção de compra ao fim do contrato.</p>
+                </div>
+                <div class="panel teal">
+                    <h3>Operacional</h3>
+                    <p>Funciona de forma parecida com um aluguel de curto prazo, em que o objetivo principal é a
+                        utilização do bem, e não sua compra definitiva.</p>
+                </div>
+                <div class="panel slate">
+                    <h3>Lease Back</h3>
+                    <p>A empresa vende sua propriedade para um investidor ou instituição financeira e a aluga de volta
+                        imediatamente, para continuar usando o espaço.</p>
+                </div>
+            </div>
+            <div class="footer">
+                <span class="doc-label">Leasing — Arrendamento Mercantil</span>
+                <span class="page-num">4 / 9</span>
+            </div>
+        </section>
+
+        <!-- 5. BEM, PRAZO E PARCELAS -->
+        <section class="slide">
+            <h2 class="slide-title">2. Bem, Prazo e Parcelas</h2>
+            <div class="rule"></div>
+            <table class="compare">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>O que é</th>
+                </tr>
+                <tr>
+                    <td class="row-label">O Bem</td>
+                    <td>É aquilo que a empresa utiliza por meio do leasing — como um caminhão. O bem continua sendo
+                        propriedade da instituição durante todo o contrato; a empresa apenas paga para utilizá-lo.</td>
+                </tr>
+                <tr>
+                    <td class="row-label">Prazo</td>
+                    <td>No leasing financeiro: mínimo de 2 anos (bens com vida útil de até 5 anos) ou 3 anos (demais
+                        bens). No leasing operacional: mínimo de 90 dias, sem passar de 75% da vida útil econômica do
+                        bem.</td>
+                </tr>
+                <tr>
+                    <td class="row-label">Parcelas</td>
+                    <td>São as contraprestações pagas durante o contrato. Pode haver também um Valor Residual Garantido
+                        (VRG), ligado ao valor do bem ao final e à eventual opção de compra.</td>
+                </tr>
+            </table>
+            <div class="footer">
+                <span class="doc-label">Leasing — Arrendamento Mercantil</span>
+                <span class="page-num">5 / 9</span>
+            </div>
+        </section>
+
+        <!-- 6. RESPONSABILIDADES, MANUTENÇÃO E SEGURO -->
+        <section class="slide">
+            <h2 class="slide-title">3. Responsabilidades, Manutenção e Seguro</h2>
+            <div class="rule"></div>
+            <table class="compare">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Leasing Financeiro</th>
+                    <th>Leasing Operacional</th>
+                </tr>
+                <tr>
+                    <td class="row-label">Manutenção</td>
+                    <td>O arrendatário assume todos os riscos, despesas e a responsabilidade pela manutenção preventiva
+                        e corretiva do bem.</td>
+                    <td>As despesas de manutenção e assistência técnica ficam, geralmente, sob responsabilidade da
+                        arrendadora.</td>
+                </tr>
+                <tr>
+                    <td class="row-label">Seguro e tributos</td>
+                    <td>O custo do seguro e os impostos (como o IPVA) são de total responsabilidade do arrendatário.
+                    </td>
+                    <td>A arrendadora costuma arcar com esses custos, embutindo-os no valor do "aluguel" mensal.</td>
+                </tr>
+            </table>
+            <div class="footer">
+                <span class="doc-label">Leasing — Arrendamento Mercantil</span>
+                <span class="page-num">6 / 9</span>
+            </div>
+        </section>
+
+        <!-- 7. OPÇÃO DE COMPRA, DEVOLUÇÃO E RENOVAÇÃO -->
+        <section class="slide">
+            <h2 class="slide-title">4. Ao Final do Contrato</h2>
+            <div class="rule"></div>
+            <div class="cols3">
+                <div class="panel">
+                    <h3>Comprar</h3>
+                    <p>Principal característica do leasing financeiro. O prazo costuma ser longo e o Valor Residual
+                        Garantido (VRG) pode ser baixo ou diluído nas próprias parcelas para facilitar a aquisição.</p>
+                </div>
+                <div class="panel teal">
+                    <h3>Devolver</h3>
+                    <p>O arrendatário opta por não ficar com o bem. Tem direito à restituição proporcional do VRG pago
+                        antecipadamente, já que não adquiriu a propriedade do item.</p>
+                </div>
+                <div class="panel slate">
+                    <h3>Renovar</h3>
+                    <p>O arrendatário decide continuar utilizando o bem. Assina-se um novo contrato, com parcelas
+                        recalculadas para valores mais baixos, já que o bem depreciou.</p>
+                </div>
+            </div>
+            <div class="footer">
+                <span class="doc-label">Leasing — Arrendamento Mercantil</span>
+                <span class="page-num">7 / 9</span>
+            </div>
+        </section>
+
+        <!-- 8. EXEMPLO -->
+        <section class="slide">
+            <h2 class="slide-title">5. Exemplo de Empresa que Utiliza o Leasing</h2>
+            <div class="rule"></div>
+            <div class="companies">Companhias aéreas — GOL, Azul, LATAM</div>
+            <p class="lead" style="margin-top:24px;">A grande maioria dos aviões de passageiros do mundo não pertence às
+                companhias aéreas, mas sim a empresas de arrendamento mercantil especializadas em aviação.</p>
+            <div class="example-grid">
+                <div class="col">
+                    <h3>Como funciona</h3>
+                    <p>A companhia aérea faz um contrato de leasing operacional para utilizar as aeronaves, sem precisar
+                        ser proprietária delas.</p>
+                </div>
+                <div class="col">
+                    <h3>Vantagem</h3>
+                    <p>Evita imobilizar bilhões de dólares na compra à vista de jatos. O capital economizado é usado em
+                        manutenção, tripulação e operação logística. Ao fim do contrato, a aeronave antiga costuma ser
+                        devolvida para o leasing de modelos mais novos.</p>
+                </div>
+            </div>
+            <div class="footer">
+                <span class="doc-label">Leasing — Arrendamento Mercantil</span>
+                <span class="page-num">8 / 9</span>
+            </div>
+        </section>
+
+        <!-- 9. ENCERRAMENTO -->
+        <section class="slide closing">
+            <h1>Obrigado.</h1>
+            <div class="authors-list">
+                <strong>ETEC Irmã Agostina</strong> · Técnico em Administração<br>
+                Angela Melo · Alexandre Roxa · Rafael Bueno · Vinicius Mota<br>
+                São Paulo, 2026
+            </div>
+            <div class="footer">
+                <span class="doc-label">Leasing — Arrendamento Mercantil</span>
+                <span class="page-num">9 / 9</span>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="hud-navigation">
+        <button class="prev" onclick="prevSlide()">‹</button>
+        <span class="counter"><span id="current-num">1</span> / <span id="total-num">9</span></span>
+        <button class="next" onclick="nextSlide()">›</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function updateSlideUI() {
+            slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+            document.getElementById('current-num').textContent = currentSlide + 1;
+            document.getElementById('total-num').textContent = slides.length;
+        }
+
+        function showSlide(index) {
+            if (index < 0 || index >= slides.length) return;
+            currentSlide = index;
+            updateSlideUI();
+        }
+
+        function nextSlide() { if (currentSlide < slides.length - 1) showSlide(currentSlide + 1); }
+        function prevSlide() { if (currentSlide > 0) showSlide(currentSlide - 1); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        updateSlideUI();
+    </script>
+
+</body>
+
+</html>
