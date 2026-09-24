@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apresentação - Investimentos</title>
+    <style>
+        /* Reset e Estilos Gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Garante que as cores de fundo sejam impressas */
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e9e9e9;
+            color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            gap: 40px;
+        }
+
+        .slide {
+            background: #ffffff;
+            width: 960px;
+            height: 540px;
+            padding: 50px 60px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-family: 'Georgia', serif;
+            font-size: 48px;
+            font-weight: normal;
+            margin-bottom: 30px;
+            color: #222;
+        }
+
+        h1.capa-titulo {
+            font-size: 80px;
+            margin-top: 40px;
+            margin-bottom: 80px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        ul.content-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        ul.content-list li {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        ul.content-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #555;
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        /* Grid específico para a Capa */
+        .capa-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .capa-grid .col-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .capa-grid .col-content {
+            color: #444;
+        }
+
+        .mt-40 {
+            margin-top: 40px;
+        }
+
+        /* Estrutura dos Razonetes */
+        .razonetes-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .razonete {
+            flex: 1;
+            font-size: 15px;
+        }
+
+        .razonete-title {
+            text-align: center;
+            border-bottom: 2px solid #222;
+            padding-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .labels {
+            display: flex;
+            font-size: 11px;
+            color: #666;
+            margin-top: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .labels>div {
+            width: 50%;
+            text-align: center;
+        }
+
+        .t-body {
+            display: flex;
+            min-height: 90px;
+            margin-top: 5px;
+        }
+
+        .t-left {
+            width: 50%;
+            border-right: 2px solid #222;
+            padding: 5px 15px 5px 5px;
+            text-align: right;
+        }
+
+        .t-right {
+            width: 50%;
+            padding: 5px 5px 5px 15px;
+            text-align: left;
+        }
+
+        .t-footer {
+            text-align: center;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* REGRAS ESPECÍFICAS PARA IMPRESSÃO / GERAÇÃO DE PDF */
+        @media print {
+            @page {
+                size: 960px 540px;
+                /* Força o tamanho do PDF para ser igual ao do slide */
+                margin: 0;
+                /* Remove margens automáticas */
+            }
+
+            body {
+                padding: 0;
+                gap: 0;
+                background: #ffffff;
+                /* Remove o fundo cinza externo */
+            }
+
+            .slide {
+                box-shadow: none;
+                /* Remove a sombra que buga na impressão */
+                margin: 0;
+                page-break-after: always;
+                /* Força quebra de página após cada slide */
+                break-after: page;
+            }
+
+            /* Evita que crie uma página em branco no final */
+            .slide:last-child {
+                page-break-after: auto;
+                break-after: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SLIDE 1: CAPA -->
+    <div class="slide">
+        <div class="header">Centro Paula Souza · ETEC Irmã Agostina · Técnico em Administração</div>
+        <h1 class="capa-titulo">Investimentos</h1>
+
+        <div class="capa-grid">
+            <div>
+                <div class="col-title">Autores</div>
+                <div class="col-content">
+                    Alexandre Roxa<br>
+                    Angela Melo<br>
+                    Antonio Drudi<br>
+                    Rafael Bueno<br>
+                    Renata Moura<br>
+                    Vinicius Mota
+                </div>
+            </div>
+            <div>
+                <div class="col-title">Professora</div>
+                <div class="col-content">Juliana Chiqueto</div>
+
+                <div class="col-title mt-40">Matéria</div>
+                <div class="col-content">Custos, Processos e Operações Contábeis</div>
+            </div>
+            <div>
+                <div class="col-title">Local e ano</div>
+                <div class="col-content">São Paulo<br>2026</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: INTRODUÇÃO -->
+    <div class="slide">
+        <div class="header">Centro Paula Souza · ETEC Irmã Agostina · Técnico em Administração</div>
+        <h1>Introdução</h1>
+        <ul class="content-list">
+            <li><strong>Foco:</strong> classificação e contabilização de investimentos empresariais.</li>
+            <li><strong>Diferenciação:</strong> aplicações de curto prazo x participações societárias.</li>
+            <li>O rigor contábil assegura a transparência das demonstrações financeiras para a tomada de decisão.</li>
+        </ul>
+    </div>
+
+    <!-- SLIDE 3: CLASSIFICAÇÃO CONTÁBIL -->
+    <div class="slide">
+        <div class="header">Centro Paula Souza · ETEC Irmã Agostina · Técnico em Administração</div>
+        <h1>Classificação Contábil</h1>
+        <div class="subtitle">O Balanço Patrimonial reflete a intenção da administração quanto ao uso dos recursos.
+        </div>
+        <ul class="content-list">
+            <li><strong>Ativo Circulante:</strong> Aplicações financeiras de curto prazo; buscam alta liquidez e
+                proteção do capital de giro.</li>
+            <li><strong>Ativo Não Circulante:</strong> Investimentos em participações societárias estruturais (sem foco
+                em venda imediata para gerar caixa).</li>
+        </ul>
+    </div>
+
+    <!-- SLIDE 4: NORMAS APLICÁVEIS -->
+    <div class="slide">
+        <div class="header">Centro Paula Souza · ETEC Irmã Agostina · Técnico em Administração</div>
+        <h1>Normas Aplicáveis (CPC)</h1>
+        <ul class="content-list">
+            <li><strong>CPC 03:</strong> Define as regras para que uma aplicação seja considerada equivalente de caixa.
+            </li>
+            <li><strong>CPC 18:</strong> Padroniza o método da equivalência patrimonial para coligadas e controladas.
+            </li>
+            <li><strong>CPC 46:</strong> Estabelece as diretrizes técnicas para a mensuração pelo valor justo.</li>
+            <li><strong>CPC 48:</strong> Determina a classificação e mensuração de instrumentos financeiros com base no
+                modelo de negócios.</li>
+        </ul>
+    </div>
+
+    <!-- SLIDE 5: PLANO DE CONTAS -->
+    <div class="slide">
+        <div class="header">Centro Paula Souza · ETEC Irmã Agostina · Técnico em Administração</div>
+        <h1>Plano de Contas</h1>
+        <ul class="content-list">
+            <li><strong>Contas do Ativo:</strong> Possuem natureza devedora. Seus saldos aumentam a débito e diminuem a
+                crédito.</li>
+            <li><strong>Caixa e Equivalentes:</strong> Registram os recursos de disponibilidade bancária imediata.</li>
+            <li><strong>Contas de Resultado (Receitas):</strong> Possuem natureza credora. Não figuram no Balanço
+                Patrimonial, mas apuram o lucro do exercício.</li>
+        </ul>
+    </div>
+
+    <!-- SLIDE 6: RAZONETES -->
+    <div class="slide">
+        <div class="header">Centro Paula Souza · ETEC Irmã Agostina · Técnico em Administração</div>
+        <h1>Estudo de Caso: Razonetes</h1>
+        <div class="subtitle">Parâmetros: Saldo Caixa inicial: 1.000; Aplicação: 300; Rendimento: 1% a.m. (3).</div>
+
+        <div class="razonetes-container">
+            <div class="razonete">
+                <div class="razonete-title">1.1.1 Caixa e Equivalentes</div>
+                <div class="labels">
+                    <div>Débito</div>
+                    <div>Crédito</div>
+                </div>
+                <div class="t-body">
+                    <div class="t-left">1.000<br><br></div>
+                    <div class="t-right">300<br><br></div>
+                </div>
+                <div class="t-footer">Saldo Devedor: 700</div>
+            </div>
+
+            <div class="razonete">
+                <div class="razonete-title">1.1.2 Títulos e Val. Mobiliários</div>
+                <div class="labels">
+                    <div>Débito</div>
+                    <div>Crédito</div>
+                </div>
+                <div class="t-body">
+                    <div class="t-left">300<br>3</div>
+                    <div class="t-right"><br><br></div>
+                </div>
+                <div class="t-footer">Saldo Devedor: 303</div>
+            </div>
+
+            <div class="razonete">
+                <div class="razonete-title">3.1.1 Receitas Financeiras</div>
+                <div class="labels">
+                    <div>Débito</div>
+                    <div>Crédito</div>
+                </div>
+                <div class="t-body">
+                    <div class="t-left"><br><br></div>
+                    <div class="t-right">3<br><br></div>
+                </div>
+                <div class="t-footer">Saldo Credor: 3</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: EFEITOS NO BALANÇO -->
+    <div class="slide">
+        <div class="header">Centro Paula Souza · ETEC Irmã Agostina · Técnico em Administração</div>
+        <h1>Efeitos no Balanço e Conclusão</h1>
+        <ul class="content-list">
+            <li><strong>Apenas aplicar (transferir recurso):</strong> Fato contábil permutativo. Consiste unicamente na
+                troca de valores dentro do Ativo Circulante.</li>
+            <li><strong>Render juros (apropriação):</strong> Fato contábil modificativo aumentativo. Gera receita e
+                eleva o Patrimônio Líquido.</li>
+        </ul>
+    </div>
+
+</body>
+
+</html>
